@@ -15,8 +15,7 @@ import {
 import ContentItem from './ContentItem';
 import { Typography, Box } from '@mui/material';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-const ContentPage = ({ data, ItemComponent }) => {
-  console.log(data);
+const ContentPage = ({ data }) => {
   const dispatch = useDispatch();
   const isSingleCol = useSelector((store) => store.pagination.isSingleCol);
   const pageSize = useSelector((store) => store.pagination.pageSize);
@@ -47,7 +46,7 @@ const ContentPage = ({ data, ItemComponent }) => {
     }
     return dataCopy;
   };
-  useLayoutEffect(() => {
+  useEffect(() => {
     dispatch(setSortedData(sortData(sortValue)));
   }, [sortValue, data]);
 

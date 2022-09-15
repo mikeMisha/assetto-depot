@@ -67,23 +67,3 @@ export const config = {
     bodyParser: false, // Disallow body parsing, consume as stream
   },
 };
-
-/* 
-function (err, info) {
-  if (err) {
-    console.log(err);
-    if (err.responseCode === 552) {
-      response = {
-        status: 552,
-        obj: {
-          error:
-            'Upload Size of image exceeded limit. Please choose image with size under 25 MB.',
-        },
-      };
-      console.log('calback');
-      console.log(response);
-    }
-  } else {
-    console.log(info);
-  }
-}); */

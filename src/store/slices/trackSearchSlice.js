@@ -12,7 +12,6 @@ const trackSearchSlice = createSlice({
   initialState,
   reducers: {
     updateTerm(state, action) {
-      console.log(action.payload);
       return { ...state, term: action.payload };
     },
     updateFilters(state, action) {

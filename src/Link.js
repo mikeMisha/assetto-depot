@@ -71,7 +71,6 @@ const Link = React.forwardRef(function Link(props, ref) {
 
   if (isExternal) {
     if (noLinkStyle) {
-      console.log('fired');
       return <Anchor className={className} href={href} ref={ref} {...other} />;
     }
 

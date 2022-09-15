@@ -54,7 +54,6 @@ const FormWrapper = ({ defaultValues, FormComponent, title }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setIsLoading(true);
-    console.log(formValues);
     let formData = new FormData();
 
     for (var key in formValues) {

@@ -6,7 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider } from '@emotion/react';
 import theme from '../src/theme';
 import createEmotionCache from '../src/createEmotionCache';
-import NavBar from '../src/components/Layout/NavBar';
+import NavBar from '../src/components/layout/NavBar';
 import store from '../src/store/store';
 import { wrapper } from '../src/store/store';
 import '../src/styles/globals.css';
