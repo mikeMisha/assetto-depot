@@ -1,0 +1,37 @@
+{
+  "name": "nextjs",
+  "version": "5.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+  },
+  "dependencies": {
+    "@emotion/cache": "latest",
+    "@emotion/react": "latest",
+    "@emotion/server": "latest",
+    "@emotion/styled": "latest",
+    "@mui/icons-material": "latest",
+    "@mui/material": "latest",
+    "@reduxjs/toolkit": "^1.8.4",
+    "axios": "^0.27.2",
+    "multer": "^1.4.5-lts.1",
+    "next": "latest",
+    "next-connect": "^0.13.0",
+    "next-redux-wrapper": "^7.0.5",
+    "nodemailer": "^6.7.8",
+    "prop-types": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-google-recaptcha": "^2.1.0",
+    "react-material-ui-carousel": "^3.4.2",
+    "react-redux": "^8.0.2"
+  },
+  "devDependencies": {
+    "eslint": "latest",
+    "eslint-config-next": "latest"
+  }
+}
