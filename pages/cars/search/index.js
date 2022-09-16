@@ -1,156 +1,20 @@
-import { useRouter } from 'next/router';
-import ContentPage from '../../../src/components/layout/ContentPage';
-import Search from '../../../src/components/layout/Search';
-import { useState } from 'react';
+import Search from '../../../src/components/Search';
+import { useState, useEffect } from 'react';
+import ContentPage from '../../../src/components/ContentPage';
+import useFilters from '../../../src/hooks/useFilters';
+import useUserSearched from '../../../src/hooks/useUserSearched';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import carsJSON from '../../../cars.json';
+import brandsJSON from '../../../brands.json';
+import dataJSON from '../../../data.json';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  updateTerm,
+  updateFilters,
+} from '../../../src/store/slices/carSearchSlice';
+import { wrapper } from '../../../src/store/store';
 
-const dummyData = [
-  {
-    id: '1',
-    brand: 'datsun',
-    name: 'Datsun 720 KC Drift',
-    image:
-      'https://assettocorsa.club/assets/template/images/auto/datsun-720-kc-drift/large/image1.jpg',
-    downloadLink:
-      'https://files.assettocorsaclub.com/file/acclub-files/33a1f9/datsun_720_drift_2018.rar',
-    likes: '10',
-    dislikes: '0',
-    downloads: '5',
-    trans: 'manual',
-    tags: ['drift', 'japan', 'truck', 'night'],
-    credit: 'N/A',
-    category: 'drift',
-  },
-
-  {
-    id: '2',
-    brand: 'datsun',
-    name: 'Datsun 720 KC Drift',
-    image:
-      'https://assettocorsa.club/assets/template/images/auto/datsun-720-kc-drift/large/image1.jpg',
-    downloadLink:
-      'https://files.assettocorsaclub.com/file/acclub-files/33a1f9/datsun_720_drift_2018.rar',
-    likes: '10',
-    dislikes: '0',
-    downloads: '5',
-    trans: 'manual',
-    tags: ['drift', 'japan', 'truck', 'night'],
-    credit: 'N/A',
-    category: 'drift',
-  },
-  {
-    id: '3',
-    brand: 'datsun',
-    name: 'Datsun 720 KC Drift',
-    image:
-      'https://assettocorsa.club/assets/template/images/auto/datsun-720-kc-drift/large/image1.jpg',
-    downloadLink:
-      'https://files.assettocorsaclub.com/file/acclub-files/33a1f9/datsun_720_drift_2018.rar',
-    likes: '10',
-    dislikes: '0',
-    downloads: '5',
-    trans: 'manual',
-    tags: ['drift', 'japan', 'truck', 'night'],
-    credit: 'N/A',
-    category: 'drift',
-  },
-  {
-    id: '4',
-    brand: 'datsun',
-    name: 'Datsun 720 KC Drift',
-    image:
-      'https://assettocorsa.club/assets/template/images/auto/datsun-720-kc-drift/large/image1.jpg',
-    downloadLink:
-      'https://files.assettocorsaclub.com/file/acclub-files/33a1f9/datsun_720_drift_2018.rar',
-    likes: '10',
-    dislikes: '0',
-    downloads: '5',
-    trans: 'manual',
-    tags: ['drift', 'japan', 'truck', 'night'],
-    credit: 'N/A',
-    category: 'drift',
-  },
-  {
-    id: '5',
-    brand: 'datsun',
-    name: 'Datsun 720 KC Drift',
-    image:
-      'https://assettocorsa.club/assets/template/images/auto/datsun-720-kc-drift/large/image1.jpg',
-    downloadLink:
-      'https://files.assettocorsaclub.com/file/acclub-files/33a1f9/datsun_720_drift_2018.rar',
-    likes: '10',
-    dislikes: '0',
-    downloads: '5',
-    trans: 'manual',
-    tags: ['drift', 'japan', 'truck', 'night'],
-    credit: 'N/A',
-    category: 'drift',
-  },
-  {
-    id: '6',
-    brand: 'datsun',
-    name: 'Datsun 720 KC Drift',
-    image:
-      'https://assettocorsa.club/assets/template/images/auto/datsun-720-kc-drift/large/image1.jpg',
-    downloadLink:
-      'https://files.assettocorsaclub.com/file/acclub-files/33a1f9/datsun_720_drift_2018.rar',
-    likes: '10',
-    dislikes: '0',
-    downloads: '5',
-    trans: 'manual',
-    tags: ['drift', 'japan', 'truck', 'night'],
-    credit: 'N/A',
-    category: 'drift',
-  },
-];
-const BRAND_LIST = [
-  'aston-martin',
-  'acura',
-  'alfa-romeo',
-  'audi',
-  'bentley',
-  'bmw',
-  'bugatti',
-  'chevrolet',
-  'citroen',
-  'datsun',
-  'dodge',
-  'ds',
-  'ferrari',
-  'fiat',
-  'honda',
-  'hyundai',
-  'infiniti',
-  'jaguar',
-  'jeep',
-  'kia',
-  'koenigsegg',
-  'lamborghini',
-  'land-rover',
-  'lexus',
-  'lotus',
-  'maserati',
-  'maybach',
-  'mazda',
-  'mclaren',
-  'mercedes-benz',
-  'mini',
-  'mitsubishi',
-  'nissan',
-  'noble',
-  'pagani',
-  'peugeot',
-  'porsche',
-  'renault',
-  'rolls-royce',
-  'ruf',
-  'saab',
-  'subaru',
-  'tesla',
-  'toyota',
-  'tvr',
-  'volkswagen',
-  'volvo',
-];
 const FILTERS = [
   {
     label: 'category',
@@ -165,65 +29,64 @@ const FILTERS = [
       'street',
     ],
   },
-  { label: 'brand', items: BRAND_LIST },
+  { label: 'brand', items: brandsJSON.brands },
 ];
 
-function searchResults({ cars, currQuery }) {
-  const router = useRouter();
-  const [searchValue, setSearchValue] = useState(currQuery.searchTerm);
-  const [filtersValues, setFiltersValues] = useState({
-    category: currQuery.category,
-    brand: currQuery.brand,
-  });
+const CarPage = ({ cars, filters }) => {
+  const dispatch = useDispatch();
+  const searchValue = useSelector((state) => state.carSearch.term);
+  const filtersValues = useSelector((state) => state.carSearch.filters);
+  const filteredCars = useFilters(filtersValues, cars);
+
+  const [resultsData, setResultsData] = useState(filteredCars);
+
+  useEffect(() => {
+    console.log(filtersValues, filteredCars);
+    if (searchValue) {
+      const filterByTerm = filteredCars.filter((car) =>
+        car.name.toLowerCase().includes(searchValue)
+      );
+      setResultsData(filterByTerm);
+    } else {
+      setResultsData(filteredCars);
+    }
+  }, [filteredCars, searchValue]);
 
   const handleFilters = (filterObj) => {
-    setFiltersValues((prevFilter) => ({ ...prevFilter, ...filterObj }));
+    dispatch(updateFilters(filterObj));
   };
 
   const handleSearchValue = (value) => {
-    setSearchValue(value);
+    dispatch(updateTerm(value));
   };
-
-  const handleSearchSubmit = () => {
-    router.push({
-      pathname: '/cars/search',
-      query: { ...filtersValues, searchTerm: searchValue },
-    });
-  };
-
   return (
     <>
+      <Box sx={{ pt: 3 }}>
+        <Typography component="h2" align="center" variant="title">
+          CARS
+        </Typography>
+        <Typography variant="subtitle1" align="center">
+          Search through hundreds of verified cars!
+        </Typography>
+      </Box>
+
       <Search
-        filters={FILTERS}
+        filters={filters}
         filtersValues={filtersValues}
         handleFilters={handleFilters}
         searchValue={searchValue}
         handleSearchValue={handleSearchValue}
-        handleSearchSubmit={handleSearchSubmit}
       />
-      <ContentPage data={cars} />
+      <ContentPage hasResults={resultsData?.length} data={resultsData} />
     </>
   );
-}
-
-export function getServerSideProps(context) {
-  const { category, brand, searchTerm } = context.query;
-
-  const filteredData = dummyData.filter((car) => {
-    if (category && car.category !== category) {
-      return false;
-    }
-    if (brand && car.brand !== brand) {
-      return false;
-    }
-    if (searchTerm && !car.name.toLowerCase().includes(searchTerm)) {
-      return false;
-    }
-    return true;
-  });
+};
+export const getStaticProps = wrapper.getStaticProps((store) => () => {
   return {
-    props: { cars: filteredData, currQuery: context.query },
+    props: {
+      cars: carsJSON.cars,
+      filters: dataJSON.carFilters,
+    },
   };
-}
-
-export default searchResults;
+});
+export default CarPage;

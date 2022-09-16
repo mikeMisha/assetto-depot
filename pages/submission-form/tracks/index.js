@@ -1,5 +1,5 @@
-import TrackForm from '../../../src/components/layout/trackForm';
-import FormWrapper from '../../../src/components/layout/FormWrapper';
+import TrackForm from '../../../src/components/trackForm';
+import FormWrapper from '../../../src/components/FormWrapper';
 const defaultValues = {
   name: '',
   description: '',

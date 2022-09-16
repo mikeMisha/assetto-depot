@@ -1,6 +1,6 @@
 import react from 'react';
-import CarForm from '../../../src/components/layout/CarForm';
-import FormWrapper from '../../../src/components/layout/FormWrapper';
+import CarForm from '../../../src/components/CarForm';
+import FormWrapper from '../../../src/components/FormWrapper';
 const defaultValues = {
   name: '',
   category: '',

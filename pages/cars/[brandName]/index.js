@@ -1,4 +1,4 @@
-import ContentPage from '../../../src/components/layout/ContentPage';
+import ContentPage from '../../../src/components/ContentPage';
 import Image from 'next/image';
 import Box from '@mui/material/Box';
 const BRAND_LIST = [
@@ -161,7 +161,7 @@ function CarBrandPage({ brandCars, brand }) {
           height={180}
         />
       </Box>
-      <ContentPage data={brandCars} />
+      <ContentPage data={brandCars} hasResults={Boolean(brandCars?.length)} />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import { Button, Typography } from '@mui/material';
-import Link from '../../src/Link';
+import Link from '../../src/components/Link';
 
 function SubmissionPage() {
   return (

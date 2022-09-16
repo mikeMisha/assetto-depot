@@ -10,7 +10,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
-import Link from '../../Link';
+import Link from '../components/Link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 const pages = [

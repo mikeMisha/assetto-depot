@@ -1,26 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
-  category: '',
-  brand: '',
+  term: '',
+  filters: {
+    category: '',
+    brand: '',
+  },
 };
+
 const carSearchSlice = createSlice({
   name: 'carSearch',
   initialState,
   reducers: {
-    updateCarSearch(state, action) {
-      return { ...state, ...action.payload };
+    updateTerm(state, action) {
+      return { ...state, term: action.payload };
+    },
+    updateFilters(state, action) {
+      const update = { ...state.filters, ...action.payload };
+      return { ...state, filters: update };
     },
   },
 });
 
-export const { updateCarSearch } = carSearchSlice.actions;
+export const { updateTerm, updateFilters } = carSearchSlice.actions;
 export default carSearchSlice.reducer;
-
-/** 
-// Extract the action creators object and the reducer
-const { actions, reducer } = carSearchSlice;
-// Extract and export each action creator by name
-export const { updateCarSearch } = actions;
-// Export the reducer, either as a default or named export
-export default reducer;
-*/

@@ -1,21 +1,23 @@
 import Search from './Search';
 import { useState, useEffect, useLayoutEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import ContentList from './ContentList';
 import ContentPagination from './/ContentPagination';
-import useCurrentPaginationData from '../../hooks/useCurrentPaginationData';
-import { useDispatch, useSelector } from 'react-redux';
+import useCurrentPaginationData from '../hooks/useCurrentPaginationData';
+import ContentItem from './ContentItem';
+import { Typography, Box } from '@mui/material';
+import NoResults from './NoResults';
+import Skeleton from '@mui/material/Skeleton';
 import {
   setCurrentPage,
   setIsSingleCol,
   setSortedData,
   setSortValue,
   setPageSize,
-} from '../../store/slices/paginationSlice';
+} from '../store/slices/paginationSlice';
+import { KeyboardReturnTwoTone } from '@mui/icons-material';
 
-import ContentItem from './ContentItem';
-import { Typography, Box } from '@mui/material';
-import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-const ContentPage = ({ data }) => {
+const ContentPage = ({ data, userSearched, hasResults }) => {
   const dispatch = useDispatch();
   const isSingleCol = useSelector((store) => store.pagination.isSingleCol);
   const pageSize = useSelector((store) => store.pagination.pageSize);
@@ -71,24 +73,19 @@ const ContentPage = ({ data }) => {
   const handleSort = (e) => {
     dispatch(setSortValue(e.target.value));
   };
-  if (currentPaginationData.length === 0) {
-    return (
-      <Box
-        sx={{
-          my: 5,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <SentimentVeryDissatisfiedIcon fontSize="large" color="primary" />
-        <Typography variant="h4" align="center">
-          No Results Found
-        </Typography>
-      </Box>
-    );
-  }
-  return (
+  const renderSkeleton = (amount) => {
+    return [...Array(pageSize)].map((item, i) => {
+      return (
+        <Skeleton
+          key={i}
+          variant="rounded"
+          sx={{ width: '100%', paddingTop: '60%' }}
+        />
+      );
+    });
+  };
+
+  return hasResults ? (
     <>
       <ContentPagination
         data={data}
@@ -102,12 +99,20 @@ const ContentPage = ({ data }) => {
         sortValue={sortValue}
       >
         <ContentList isSingleCol={isSingleCol}>
-          {currentPaginationData.map((item) => (
-            <ContentItem isSingleCol={isSingleCol} key={item.id} data={item} />
-          ))}
+          {!currentPaginationData?.length
+            ? renderSkeleton(pageSize)
+            : currentPaginationData.map((item) => (
+                <ContentItem
+                  isSingleCol={isSingleCol}
+                  key={item.id}
+                  data={item}
+                />
+              ))}
         </ContentList>
       </ContentPagination>
     </>
+  ) : (
+    <NoResults />
   );
 };
 

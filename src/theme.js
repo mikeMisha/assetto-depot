@@ -20,7 +20,7 @@ const theme = createTheme({
     },
     title: {
       fontWeight: 'medium',
-      fontFamily: 'Russo One',
+      fontFamily: 'Russo One, Arial, Helvetica, sans-serif',
       fontSize: '1.5rem',
       color: '#2C2E43',
 

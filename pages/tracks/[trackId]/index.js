@@ -5,8 +5,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import tracksJSON from '../../../tracks.json';
-import Link from '../../../src/Link';
+import dataJSON from '../../../data.json';
+import Link from '../../../src/components/Link';
 import { wrapper } from '../../../src/store/store';
 
 function TrackPage({ track }) {
@@ -66,7 +66,7 @@ function TrackPage({ track }) {
 export function getStaticPaths() {
   return {
     fallback: false,
-    paths: tracksJSON.tracks.map((track) => ({
+    paths: dataJSON.tracks.map((track) => ({
       params: { trackId: track.id },
     })),
   };
@@ -75,7 +75,7 @@ export function getStaticPaths() {
 export const getStaticProps = wrapper.getStaticProps((store) => (context) => {
   const trackId = context.params.trackId;
   return {
-    props: { track: tracksJSON.tracks.find((track) => track.id === trackId) },
+    props: { track: dataJSON.tracks.find((track) => track.id === trackId) },
   };
 });
 

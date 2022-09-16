@@ -5,20 +5,23 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import Box from '@mui/material/Box';
-import titleCase from '../../utils/titleCase';
+import titleCase from '../utils/titleCase';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import IconButton from '@mui/material/IconButton';
 
-const Search = ({
-  filtersValues,
-  handleFilters,
-  filters,
-  handleSearchValue,
-  searchValue,
-  handleSearchSubmit,
-}) => {
+const Search = (props) => {
+  const {
+    filtersValues,
+    handleFilters,
+    filters,
+    handleSearchValue,
+    searchValue,
+    handleSearchSubmit,
+  } = props;
+
   const [text, setText] = useState(searchValue);
+  console.log(filters);
   useEffect(() => {
     const timerId = setTimeout(() => {
       handleSearchValue(text);
@@ -27,6 +30,7 @@ const Search = ({
       clearTimeout(timerId);
     };
   }, [text]);
+
   const handleSelect = (e, label) => {
     handleFilters({ [label]: e.target.value });
   };

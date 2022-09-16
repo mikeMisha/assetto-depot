@@ -8,13 +8,13 @@ import Box from '@mui/material/Box';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import makeExcerpt from '../../utils/makeExcerpt';
-import formatNumber from '../../utils/formatNumber';
+import makeExcerpt from '../utils/makeExcerpt';
+import formatNumber from '../utils/formatNumber';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import Link from '../../Link';
+import Link from 'next/link';
 
 const ContentItem = ({ data, isSingleCol }) => {
   const router = useRouter();

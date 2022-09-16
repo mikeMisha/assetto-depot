@@ -1,10 +1,11 @@
-import Search from '../../src/components/layout/Search';
+import Search from '../../src/components/Search';
 import { useState, useEffect } from 'react';
-import ContentPage from '../../src/components/layout/ContentPage';
+import ContentPage from '../../src/components/ContentPage';
 import useFilters from '../../src/hooks/useFilters';
+import useUserSearched from '../../src/hooks/useUserSearched';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import tracksJSON from '../../tracks.json';
+import dataJSON from '../../data.json';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   updateTerm,
@@ -25,6 +26,8 @@ const TracksPage = ({ tracks, filters }) => {
   const searchValue = useSelector((state) => state.trackSearch.term);
   const filtersValues = useSelector((state) => state.trackSearch.filters);
   const filteredTracks = useFilters(filtersValues, tracks);
+  const userSearched = useUserSearched(searchValue, filtersValues);
+
   const [resultsData, setResultsData] = useState(filteredTracks);
 
   useEffect(() => {
@@ -63,15 +66,15 @@ const TracksPage = ({ tracks, filters }) => {
         searchValue={searchValue}
         handleSearchValue={handleSearchValue}
       />
-      <ContentPage data={resultsData} />
+      <ContentPage hasResults={resultsData?.length} data={resultsData} />
     </>
   );
 };
 export const getStaticProps = wrapper.getStaticProps((store) => () => {
   return {
     props: {
-      tracks: tracksJSON.tracks,
-      filters: FILTERS,
+      tracks: dataJSON.tracks,
+      filters: dataJSON.trackFilters,
     },
   };
 });

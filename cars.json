@@ -1,0 +1,81 @@
+{
+  "filters": {
+    "cars": [
+      {
+        "label": "category",
+        "items": [
+          "f1",
+          "drift",
+          "touge",
+          "karting",
+          "fictional",
+          "nascar",
+          "rally",
+          "street"
+        ]
+      },
+      {
+        "label": "brand",
+        "items": [
+          "aston-martin",
+          "acura",
+          "alfa-romeo",
+          "audi",
+          "bentley",
+          "bmw",
+          "bugatti",
+          "chevrolet",
+          "citroen",
+          "datsun",
+          "dodge",
+          "ds",
+          "ferrari",
+          "fiat",
+          "honda",
+          "hyundai",
+          "infiniti",
+          "jaguar",
+          "jeep",
+          "kia",
+          "koenigsegg",
+          "lamborghini",
+          "land-rover",
+          "lexus",
+          "lotus",
+          "maserati",
+          "maybach",
+          "mazda",
+          "mclaren",
+          "mercedes-benz",
+          "mini",
+          "mitsubishi",
+          "nissan",
+          "noble",
+          "pagani",
+          "peugeot",
+          "porsche",
+          "renault",
+          "rolls-royce",
+          "ruf",
+          "saab",
+          "subaru",
+          "tesla",
+          "toyota",
+          "tvr",
+          "volkswagen",
+          "volvo"
+        ]
+      }
+    ],
+    "tracks": [
+      {
+        "label": "category",
+        "items": ["circuit", "drift", "touge", "kart", "rally", "street"]
+      },
+      {
+        "label": "type",
+        "items": ["loop", "street", "a to b"]
+      }
+    ]
+  }
+}

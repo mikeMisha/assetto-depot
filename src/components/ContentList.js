@@ -5,7 +5,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import useCurrentPaginationData from '../../hooks/useCurrentPaginationData';
+import useCurrentPaginationData from '../hooks/useCurrentPaginationData';
 import ViewAgendaIcon from '@mui/icons-material/ViewAgenda';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import Button from '@mui/material/Button';
