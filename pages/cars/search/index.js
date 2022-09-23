@@ -5,32 +5,15 @@ import useFilters from '../../../src/hooks/useFilters';
 import useUserSearched from '../../../src/hooks/useUserSearched';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import carsJSON from '../../../cars.json';
-import brandsJSON from '../../../brands.json';
-import dataJSON from '../../../data.json';
+
 import { useSelector, useDispatch } from 'react-redux';
 import {
   updateTerm,
   updateFilters,
 } from '../../../src/store/slices/carSearchSlice';
 import { wrapper } from '../../../src/store/store';
-
-const FILTERS = [
-  {
-    label: 'category',
-    items: [
-      'f1',
-      'drift',
-      'touge',
-      'karting',
-      'fictional',
-      'nascar',
-      'rally',
-      'street',
-    ],
-  },
-  { label: 'brand', items: brandsJSON.brands },
-];
+import { carFilters } from '../../../src/lib/searchFilters';
+import { supabase } from '../../../src/lib/initSupabase';
 
 const CarPage = ({ cars, filters }) => {
   const dispatch = useDispatch();
@@ -41,7 +24,6 @@ const CarPage = ({ cars, filters }) => {
   const [resultsData, setResultsData] = useState(filteredCars);
 
   useEffect(() => {
-    console.log(filtersValues, filteredCars);
     if (searchValue) {
       const filterByTerm = filteredCars.filter((car) =>
         car.name.toLowerCase().includes(searchValue)
@@ -77,15 +59,20 @@ const CarPage = ({ cars, filters }) => {
         searchValue={searchValue}
         handleSearchValue={handleSearchValue}
       />
-      <ContentPage hasResults={resultsData?.length} data={resultsData} />
+      <ContentPage
+        dataType="cars"
+        hasResults={resultsData?.length}
+        data={resultsData}
+      />
     </>
   );
 };
-export const getStaticProps = wrapper.getStaticProps((store) => () => {
+export const getStaticProps = wrapper.getStaticProps((store) => async () => {
+  const { data: cars, error } = await supabase.from('cars').select();
   return {
     props: {
-      cars: carsJSON.cars,
-      filters: dataJSON.carFilters,
+      cars: cars.sort((a, b) => a.id - b.id),
+      filters: carFilters,
     },
   };
 });

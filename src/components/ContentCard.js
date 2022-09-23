@@ -1,23 +1,20 @@
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import makeExcerpt from '../utils/makeExcerpt';
-import formatNumber from '../utils/formatNumber';
-import Chip from '@mui/material/Chip';
+import formatNumber from '../lib/formatNumber';
 import Stack from '@mui/material/Stack';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
+import DownloadBtn from './DownloadBtn';
 
-const ContentItem = ({ data, isSingleCol }) => {
-  const router = useRouter();
+const ContentCard = ({ dataType, data, isSingleCol }) => {
+  const router = useRouter().pathname.split('/')[1];
 
   return (
     <Card
@@ -76,37 +73,6 @@ const ContentItem = ({ data, isSingleCol }) => {
             >
               Credit: {data.credit}
             </Typography>
-            {/**<Typography
-            variant="body2"
-            sx={{
-              mb: 1,
-              overflowWrap: 'break-all',
-              wordBreak: 'break-all',
-              whiteSpace: 'normal',
-              hyphens: 'auto',
-              display: 'inline-block',
-            }}
-            color="text.secondary"
-          >
-            {makeExcerpt(data.trackDesc, isSingleCol ? 400 : 100)}
-          </Typography> 
-
-            <Stack
-              direction="row"
-              sx={{ justifyContent: 'center' }}
-              spacing={1}
-            >
-              {data.tags.map((tag, i) => (
-                <Chip
-                  key={i}
-                  sx={{ bgcolor: 'secondary.main' }}
-                  label={tag}
-                  size="small"
-                  variant="outlined"
-                />
-              ))}
-            </Stack>
-            **/}
           </CardContent>
           <Box
             sx={{
@@ -137,14 +103,28 @@ const ContentItem = ({ data, isSingleCol }) => {
               </Typography>
             </Box>
 
-            <CardActions sx={{ p: 2, justifyContent: 'center' }}>
-              <Link underline="none" href={`/tracks/${data.id}`}>
+            <Stack
+              direction="row"
+              spacing={2}
+              sx={{ justifyContent: 'center', p: 2 }}
+            >
+              <Link
+                underline="none"
+                href={
+                  dataType == 'cars'
+                    ? `${data.brand}/${data.id}`
+                    : `tracks/${data.id}`
+                }
+              >
                 <Button variant="contained">Details</Button>
               </Link>
-              <Link underline="none" href={data.downloadLink}>
-                <Button variant="contained">Download</Button>
-              </Link>
-            </CardActions>
+              <DownloadBtn
+                type={router}
+                link={data.downloadLink}
+                typeId={data.id}
+                downloads={data.downloads}
+              />
+            </Stack>
           </Box>
         </Box>
       </Box>
@@ -152,4 +132,4 @@ const ContentItem = ({ data, isSingleCol }) => {
   );
 };
 
-export default ContentItem;
+export default ContentCard;

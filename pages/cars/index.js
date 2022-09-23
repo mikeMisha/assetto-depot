@@ -14,7 +14,8 @@ import {
   updateTerm,
   updateFilters,
 } from '../../src/store/slices/carSearchSlice';
-import dataJSON from '../../data.json';
+
+import { carFilters } from '../../src/lib/searchFilters';
 
 function carPage({ filters }) {
   const router = useRouter();
@@ -105,7 +106,7 @@ function carPage({ filters }) {
 export const getStaticProps = wrapper.getStaticProps((store) => () => {
   return {
     props: {
-      filters: dataJSON.carFilters,
+      filters: carFilters,
     },
   };
 });

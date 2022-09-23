@@ -5,21 +5,14 @@ import useFilters from '../../src/hooks/useFilters';
 import useUserSearched from '../../src/hooks/useUserSearched';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import dataJSON from '../../data.json';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   updateTerm,
   updateFilters,
 } from '../../src/store/slices/trackSearchSlice';
 import { wrapper } from '../../src/store/store';
-
-const FILTERS = [
-  {
-    label: 'category',
-    items: ['circuit', 'drift', 'touge', 'kart', 'rally', 'street'],
-  },
-  { label: 'type', items: ['loop', 'street', 'a to b'] },
-];
+import { trackFilters } from '../../src/lib/searchFilters';
+import { supabase } from '../../src/lib/initSupabase';
 
 const TracksPage = ({ tracks, filters }) => {
   const dispatch = useDispatch();
@@ -66,15 +59,21 @@ const TracksPage = ({ tracks, filters }) => {
         searchValue={searchValue}
         handleSearchValue={handleSearchValue}
       />
-      <ContentPage hasResults={resultsData?.length} data={resultsData} />
+      <ContentPage
+        dataType="tracks"
+        hasResults={resultsData?.length}
+        data={resultsData}
+      />
     </>
   );
 };
-export const getStaticProps = wrapper.getStaticProps((store) => () => {
+export const getStaticProps = wrapper.getStaticProps((store) => async () => {
+  const { data: tracks, error } = await supabase.from('tracks').select();
+
   return {
     props: {
-      tracks: dataJSON.tracks,
-      filters: dataJSON.trackFilters,
+      tracks: tracks.sort((a, b) => a.id - b.id),
+      filters: trackFilters,
     },
   };
 });

@@ -1,11 +1,9 @@
-import Search from './Search';
-import { useState, useEffect, useLayoutEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ContentList from './ContentList';
 import ContentPagination from './/ContentPagination';
 import useCurrentPaginationData from '../hooks/useCurrentPaginationData';
-import ContentItem from './ContentItem';
-import { Typography, Box } from '@mui/material';
+import ContentCard from './ContentCard';
 import NoResults from './NoResults';
 import Skeleton from '@mui/material/Skeleton';
 import {
@@ -15,9 +13,8 @@ import {
   setSortValue,
   setPageSize,
 } from '../store/slices/paginationSlice';
-import { KeyboardReturnTwoTone } from '@mui/icons-material';
 
-const ContentPage = ({ data, userSearched, hasResults }) => {
+const ContentPage = ({ dataType, data, userSearched, hasResults }) => {
   const dispatch = useDispatch();
   const isSingleCol = useSelector((store) => store.pagination.isSingleCol);
   const pageSize = useSelector((store) => store.pagination.pageSize);
@@ -35,17 +32,19 @@ const ContentPage = ({ data, userSearched, hasResults }) => {
   }, []);
   const sortData = (sortValue) => {
     const dataCopy = [...data];
+
     switch (sortValue) {
       case 'top rated':
-        dataCopy.sort((a, b) => b.likes.localeCompare(a.likes));
+        dataCopy.sort((a, b) => b.likes - a.likes);
         break;
       case 'most downloads':
-        dataCopy.sort((a, b) => b.downloads.localeCompare(a.downloads));
+        dataCopy.sort((a, b) => b.downloads - a.downloads);
         break;
       case 'a-z':
         dataCopy.sort((a, b) => a.name.localeCompare(b.name));
         break;
     }
+
     return dataCopy;
   };
   useEffect(() => {
@@ -102,10 +101,11 @@ const ContentPage = ({ data, userSearched, hasResults }) => {
           {!currentPaginationData?.length
             ? renderSkeleton(pageSize)
             : currentPaginationData.map((item) => (
-                <ContentItem
+                <ContentCard
                   isSingleCol={isSingleCol}
                   key={item.id}
                   data={item}
+                  dataType={dataType}
                 />
               ))}
         </ContentList>

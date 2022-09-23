@@ -30,11 +30,7 @@ function SubmissionPage() {
             width: '100%',
           }}
         >
-          <Link
-            href="/submission-form/tracks"
-            noStyleLink
-            sx={{ textDecoration: 'none' }}
-          >
+          <Link href="/submission-form/tracks" sx={{ textDecoration: 'none' }}>
             <Button
               color="primary"
               size="large"
@@ -54,11 +50,7 @@ function SubmissionPage() {
               tracks
             </Button>
           </Link>
-          <Link
-            href="/submission-form/car"
-            noStyleLink
-            sx={{ textDecoration: 'none' }}
-          >
+          <Link href="/submission-form/car" sx={{ textDecoration: 'none' }}>
             <Button
               color="primary"
               size="large"

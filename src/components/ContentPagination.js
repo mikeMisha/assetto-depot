@@ -96,6 +96,8 @@ const ContentPagination = ({
                 value={sortValue}
                 label="sort"
                 onChange={handleSort}
+                sx={{ maxWidth: '100px' }}
+                autoWidth
               >
                 <MenuItem value="top rated">Top rated</MenuItem>
                 <MenuItem value="most downloads">Most downloads</MenuItem>
@@ -109,6 +111,8 @@ const ContentPagination = ({
                 value={pageSize}
                 label={`${pageSize} per page`}
                 onChange={updatePerPage}
+                autoWidth
+                sx={{ maxWidth: '60px' }}
               >
                 {PAGE_SIZES.map((size) => (
                   <MenuItem key={size} value={size}>
