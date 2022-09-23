@@ -75,7 +75,6 @@ const LikeDislike = ({ data, type }) => {
   }, [interactions]);
 
   const updateLocalStorage = (data) => {
-    å;
     const { typeId } = data;
     const interactions = JSON.parse(localStorage.getItem('interactions'));
     const item = [{ id: typeId, liked: likeActive, disliked: dislikeActive }];
