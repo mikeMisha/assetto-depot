@@ -13,7 +13,11 @@ function CarBrandPage({ brandCars, brand }) {
           height={180}
         />
       </Box>
-      <ContentPage data={brandCars} hasResults={Boolean(brandCars?.length)} />
+      <ContentPage
+        dataType="cars"
+        data={brandCars}
+        hasResults={Boolean(brandCars?.length)}
+      />
     </>
   );
 }
