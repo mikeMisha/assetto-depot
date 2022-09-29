@@ -77,30 +77,37 @@ const LikeDislike = ({ data, type }) => {
   const updateLocalStorage = (data) => {
     const { typeId } = data;
     const interactions = JSON.parse(localStorage.getItem('interactions'));
-    const item = [{ id: typeId, liked: likeActive, disliked: dislikeActive }];
+    const item = { id: typeId, liked: likeActive, disliked: dislikeActive };
     if (!interactions) {
       localStorage.setItem(
         'interactions',
         JSON.stringify({
-          [type]: item,
+          [type]: [item],
         })
       );
-    } else if (!interactions.hasOwnProperty(type)) {
+    } else if (interactions.hasOwnProperty(type)) {
+      const typeArr = interactions[type];
+      const cacheHasId = typeArr.find((o) => o.id == item.id);
+
+      let updatedArr;
+      if (cacheHasId) {
+        updatedArr = typeArr.map((i) => (i.id === item.id ? item : i));
+      } else {
+        typeArr.push(item);
+        updatedArr = typeArr;
+      }
+
+      localStorage.setItem(
+        'interactions',
+        JSON.stringify({ ...interactions, [type]: updatedArr })
+      );
+    } else {
       localStorage.setItem(
         'interactions',
         JSON.stringify({
           ...interactions,
-          [type]: item,
+          [type]: [item],
         })
-      );
-    } else {
-      const typeArr = interactions[type];
-      const updatedArr = typeArr.map(
-        (obj) => item.find((o) => o.id === obj.id) || obj
-      );
-      localStorage.setItem(
-        'interactions',
-        JSON.stringify({ ...interactions, [type]: updatedArr })
       );
     }
   };
