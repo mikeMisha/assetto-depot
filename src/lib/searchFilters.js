@@ -22,6 +22,7 @@ export const carFilters = [
       'nascar',
       'rally',
       'street',
+      'racing'
     ],
   },
   {

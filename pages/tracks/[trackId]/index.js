@@ -36,6 +36,7 @@ export const getStaticProps = wrapper.getStaticProps(
       .eq('id', trackId);
     return {
       props: { track: track[0], type: 'tracks' },
+      revalidate: 10,
     };
   }
 );

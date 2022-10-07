@@ -38,6 +38,7 @@ export async function getStaticProps(context) {
       brandCars: cars.filter((car) => car.brand === carBrand),
       brand: carBrand,
     },
+    revalidate: 10,
   };
 }
 

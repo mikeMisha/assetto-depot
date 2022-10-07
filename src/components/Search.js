@@ -40,6 +40,7 @@ const Search = (props) => {
       component="form"
       sx={{
         display: 'flex',
+        flexShrink: 0,
         py: 2,
         justifyContent: 'center',
         alignItems: 'center',

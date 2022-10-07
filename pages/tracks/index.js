@@ -2,7 +2,7 @@ import Search from '../../src/components/Search';
 import { useState, useEffect } from 'react';
 import ContentPage from '../../src/components/ContentPage';
 import useFilters from '../../src/hooks/useFilters';
-import useUserSearched from '../../src/hooks/useUserSearched';
+
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useSelector, useDispatch } from 'react-redux';
@@ -19,7 +19,6 @@ const TracksPage = ({ tracks, filters }) => {
   const searchValue = useSelector((state) => state.trackSearch.term);
   const filtersValues = useSelector((state) => state.trackSearch.filters);
   const filteredTracks = useFilters(filtersValues, tracks);
-  const userSearched = useUserSearched(searchValue, filtersValues);
 
   const [resultsData, setResultsData] = useState(filteredTracks);
 
@@ -75,6 +74,7 @@ export const getStaticProps = wrapper.getStaticProps((store) => async () => {
       tracks: tracks.sort((a, b) => a.id - b.id),
       filters: trackFilters,
     },
+    revalidate: 10,
   };
 });
 export default TracksPage;

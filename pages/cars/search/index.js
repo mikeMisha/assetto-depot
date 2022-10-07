@@ -2,7 +2,6 @@ import Search from '../../../src/components/Search';
 import { useState, useEffect } from 'react';
 import ContentPage from '../../../src/components/ContentPage';
 import useFilters from '../../../src/hooks/useFilters';
-import useUserSearched from '../../../src/hooks/useUserSearched';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
@@ -74,6 +73,7 @@ export const getStaticProps = wrapper.getStaticProps((store) => async () => {
       cars: cars.sort((a, b) => a.id - b.id),
       filters: carFilters,
     },
+    revalidate: 10,
   };
 });
 export default CarPage;

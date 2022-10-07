@@ -24,6 +24,7 @@ export async function getStaticProps(context) {
     .eq('id', carId);
   return {
     props: { car: car[0], type: 'cars' },
+    revalidate: 10,
   };
 }
 

@@ -1,16 +1,13 @@
 import Box from '@mui/system/Box';
-import { useState, useEffect } from 'react';
 import Pagination from '@mui/material/Pagination';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import useCurrentPaginationData from '../hooks/useCurrentPaginationData';
 import ViewAgendaIcon from '@mui/icons-material/ViewAgenda';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import { TryRounded } from '@mui/icons-material';
 
 const PAGE_SIZES = [15, 25, 50, 100];
 
@@ -32,7 +29,7 @@ const ContentPagination = ({
         sx={{
           display: 'flex',
           justifyContent: 'center',
-
+          flexShrink: 0,
           borderTop: 'solid 3px #fdb826',
         }}
       >
@@ -130,6 +127,7 @@ const ContentPagination = ({
       <Box
         sx={{
           display: 'flex',
+          flexShrink: 0,
           justifyContent: 'center',
           py: 3,
           borderBottom: 'solid 3px #fdb826',
