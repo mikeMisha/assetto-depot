@@ -33,31 +33,43 @@ function DetailsPage({ data, type }) {
             <FileDownloadIcon fontSize="small" sx={{ mr: 0.5 }} />
             {formatNumber(data.downloads)}
           </Typography>
-          <Stack direction="row" spacing={3}>
+          <Stack
+            direction={{ xs: 'column', md: 'row' }}
+            spacing={{ xs: 0, md: 3 }}
+            sx={{ flexWrap: 'wrap' }}
+          >
             <Typography align="left" variant="subtitle1">
               <strong>Credit:</strong> {data.credit}
             </Typography>
-            <Typography align="left" variant="subtitle1">
-              <strong>Location: </strong> {data.location}
-            </Typography>
+
+            {data.location && (
+              <Typography align="left" variant="subtitle1">
+                <strong>Location: </strong> {data.location}{' '}
+              </Typography>
+            )}
+
             {data.type && (
               <Typography align="left" variant="subtitle1">
                 <strong>Type: </strong> {data.type}
               </Typography>
             )}
+
             <Typography align="left" variant="subtitle1">
               <strong>Category: </strong> {data.category}
             </Typography>
+
             {data.brand && (
               <Typography align="left" variant="subtitle1">
                 <strong>Brand: </strong> {titleCase(data.brand)}
               </Typography>
             )}
+
             {data.trans && (
               <Typography align="left" variant="subtitle1">
                 <strong>Transmission: </strong> {data.trans}
               </Typography>
             )}
+
             {data.version && (
               <Typography align="left" variant="subtitle1">
                 <strong>Version:</strong> {data.version}

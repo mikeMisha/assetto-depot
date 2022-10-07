@@ -3,7 +3,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Link from '../src/components/Link';
+import Link from 'next/link';
 import Divider from '@mui/material/Divider';
 import Copyright from '../src/components/Copyright';
 import Button from '@mui/material/Button';
@@ -45,8 +45,9 @@ export default function Index() {
               sx={{ textAlign: 'center' }}
               gutterBottom
             >
-              Go to database for all Assetto Corssa{' '}
+              Go to database for all Assetto Corssa
               <Box component="span" color="primary.main">
+                {' '}
                 mods!
               </Box>
             </Typography>
@@ -67,21 +68,23 @@ export default function Index() {
                 alignItems: { xs: 'center' },
               }}
             >
-              <Button
-                color="primary"
-                size="large"
-                sx={{
-                  whiteSpace: 'nowrap',
-                  mb: { xs: 3, sm: 0 },
-                  transition: 'all 0.2s ease-out',
-                  '&:hover': {
-                    transform: 'scale(1.05)',
-                  },
-                }}
-                variant="contained"
-              >
-                VIEW TRACKS
-              </Button>
+              <Link href="/tracks">
+                <Button
+                  color="primary"
+                  size="large"
+                  sx={{
+                    whiteSpace: 'nowrap',
+                    mb: { xs: 3, sm: 0 },
+                    transition: 'all 0.2s ease-out',
+                    '&:hover': {
+                      transform: 'scale(1.05)',
+                    },
+                  }}
+                  variant="contained"
+                >
+                  VIEW TRACKS
+                </Button>
+              </Link>
               <Divider
                 sx={{
                   borderColor: 'primary.main',
@@ -92,19 +95,21 @@ export default function Index() {
                 orientation="vertical"
                 flexItem
               />
-              <Button
-                sx={{
-                  transition: 'all 0.2s ease-out',
-                  '&:hover': {
-                    transform: 'scale(1.05)',
-                  },
-                }}
-                color="primary"
-                size="large"
-                variant="contained"
-              >
-                VIEW CARS
-              </Button>
+              <Link href="/cars">
+                <Button
+                  sx={{
+                    transition: 'all 0.2s ease-out',
+                    '&:hover': {
+                      transform: 'scale(1.05)',
+                    },
+                  }}
+                  color="primary"
+                  size="large"
+                  variant="contained"
+                >
+                  VIEW CARS
+                </Button>
+              </Link>
             </Box>
           </Box>
         </Box>
