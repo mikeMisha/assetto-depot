@@ -24,7 +24,7 @@ function DetailsPage({ data, type }) {
         />
         <Box sx={{ px: 8, py: 4 }}>
           <Box>
-            <Typography align="left" variant="h3">
+            <Typography align="left" variant="h2">
               {data.name}
             </Typography>
           </Box>

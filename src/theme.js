@@ -7,12 +7,14 @@ const theme = createTheme({
     h2: {
       fontWeight: 'medium',
       fontSize: '2rem',
-
+      '@media (min-width:400px)': {
+        fontSize: '1.6rem',
+      },
       '@media (min-width:900px)': {
         fontSize: '2.4rem',
       },
       '@media (min-width:1200px)': {
-        fontSize: '4rem',
+        fontSize: '3rem',
       },
     },
     icon: {
