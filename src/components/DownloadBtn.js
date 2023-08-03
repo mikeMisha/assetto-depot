@@ -11,7 +11,7 @@ const DownloadBtn = ({ link, type, typeId, downloads }) => {
     });
   };
   return (
-    <Button onClick={onClick} variant="contained" href={{ link }}>
+    <Button onClick={onClick} variant="contained" href={link}>
       Download
     </Button>
   );
