@@ -4,15 +4,14 @@ import axios from 'axios';
 
 const DownloadBtn = ({ link, type, typeId, downloads }) => {
   const onClick = async () => {
-    await axios
-      .post('/api/download', { downloads: downloads + 1, type, typeId })
-      .then((res) => {
-        console.log(res.data);
-      });
-    window.open(link, '_blank');
+    await axios.post('/api/download', {
+      downloads: downloads + 1,
+      type,
+      typeId,
+    });
   };
   return (
-    <Button onClick={onClick} variant="contained">
+    <Button onClick={onClick} variant="contained" href={{ link }}>
       Download
     </Button>
   );

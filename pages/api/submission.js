@@ -37,6 +37,7 @@ apiRoute.post(async (req, res) => {
     auth: {
       user: process.env.GMAIL_USER,
       pass: process.env.GMAIL_PASS,
+      authMethod: 'PLAIN',
     },
     secure: true,
   });

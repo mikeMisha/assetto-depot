@@ -5,17 +5,14 @@ import Toolbar from '@mui/material/Toolbar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
-import SearchIcon from '@mui/icons-material/Search';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import Button from '@mui/material/Button';
 import Link from '../components/Link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 const pages = [
   { title: 'home', path: '/' },
-  { title: 'cars', path: '/cars' },
+  { title: 'cars', path: '/cars/search' },
   { title: 'tracks', path: '/tracks' },
   { title: 'submission form', path: '/submission-form' },
 ];
@@ -23,21 +20,13 @@ const pages = [
 export default function NavBar() {
   const router = useRouter();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
   };
 
   return (
