@@ -38,14 +38,16 @@ export default function Index() {
             justifyContent: 'center',
           }}
         >
-          <Box sx={{ my: 5, width: '70%' }}>
+          <Box sx={{ my: 5, width: '100%' }}>
             <Typography
               variant="h2"
               color="secondary"
               sx={{ textAlign: 'center' }}
               gutterBottom
             >
-              Go to database for all Assetto Corssa
+              Your source for
+              <br />
+              Assetto Corsa
               <Box component="span" color="primary.main">
                 {' '}
                 mods!
@@ -98,6 +100,7 @@ export default function Index() {
               <Link href="/cars">
                 <Button
                   sx={{
+                    whiteSpace: 'nowrap',
                     transition: 'all 0.2s ease-out',
                     '&:hover': {
                       transform: 'scale(1.05)',
