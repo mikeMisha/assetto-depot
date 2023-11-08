@@ -31,7 +31,6 @@
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
 * [Usage](#usage)
-* [License](#license)
 * [Authors](#authors)
 
 
@@ -151,9 +150,6 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## License
-
-Distributed under the MIT License. See [LICENSE](https://github.com/mikemisha/assetto-depot/blob/main/LICENSE.md) for more information.
 
 ## Authors
 
