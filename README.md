@@ -78,7 +78,14 @@ git clone https://github.com/mikeMisha/practice-my-spelling.git
 ```sh
 npm install
 ```
-
+3. Log in to the Supabase CLI
+  
+    run `npx supabase login`
+  
+    Start Supabase services
+    Initialize Supabase to set up the configuration for developing your project locally:
+  
+    `supabase init`
 
 
 ## Usage
@@ -98,15 +105,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
     Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-2. Log in to the Supabase CLI
-  
-    run `npx supabase login`
-  
-    Start Supabase services
-    Initialize Supabase to set up the configuration for developing your project locally:
-  
-    `supabase init`
-  
+2. Run Supabase development database
+
     Make sure Docker is running. The start command uses Docker to start the Supabase services.
     This command may take a while to run if this is the first time using the CLI.
   
