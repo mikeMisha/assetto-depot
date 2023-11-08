@@ -58,7 +58,7 @@ To get a local copy up and running follow these simple example steps.
 2) Install the Supabase CLI as dev dependency via npm:
 `npm install supabase --save-dev`
 
-3) make sure to have Docker installed. See [https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/) on how to get Docker on your machine.
+3) Make sure to have Docker installed. See [https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/) on how to get Docker on your machine.
 
 
 
@@ -92,7 +92,7 @@ npm install
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-1. run the development server: 
+1. Run the development server: 
     ```bash
      npm run dev
      # or
@@ -124,7 +124,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ```
    
 
-4. configure `.env` file with the Supabase API keys provided and add variables for Nodemailer.
+4. Configure `.env` file with the Supabase API keys provided and add variables for Nodemailer.
   
     ```
     GMAIL_USER = "<Your Gmail Username>"
