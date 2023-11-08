@@ -31,10 +31,9 @@
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
 * [Usage](#usage)
-* [Contributing](#contributing)
 * [License](#license)
 * [Authors](#authors)
-* [Acknowledgements](#acknowledgements)
+
 
 ## About The Project
 
@@ -159,7 +158,3 @@ Distributed under the MIT License. See [LICENSE](https://github.com/mikemisha/as
 ## Authors
 
 * **Michael Karabach** - *Front End Developer * - [Michael Karabach](https://github.com/mikeMisha) - **
-
-* []()
-* []()
-* []()
