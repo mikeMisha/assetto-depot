@@ -17,10 +17,8 @@ const theme = createTheme({
         fontSize: '3rem',
       },
     },
-    icon: {
-      color: 'rgba(0, 0, 0, 0.6)',
-    },
-    title: {
+
+    h1: {
       fontWeight: 'medium',
       fontFamily: 'Russo One, Arial, Helvetica, sans-serif',
       fontSize: '1.5rem',
@@ -36,14 +34,9 @@ const theme = createTheme({
         fontSize: '4rem',
       },
     },
-    icon: {
-      color: 'rgba(0, 0, 0, 0.6)',
-    },
   },
 
   components: {
-    // Name of the component
-
     MuiButton: {
       styleOverrides: {
         root: ({ ownerState }) => ({
@@ -69,11 +62,9 @@ const theme = createTheme({
     error: {
       main: red.A400,
     },
-    background: {
-      main: '#595260',
-    },
+
     text: {
-      main: '#2C2E43',
+      primary: '#2C2E43',
     },
   },
 });

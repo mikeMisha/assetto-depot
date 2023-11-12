@@ -14,7 +14,7 @@ import { trackFilters } from '../../src/lib/searchFilters';
 import { supabase } from '../../src/lib/initSupabase';
 import { RootState } from '../../src/store/store';
 import { GetStaticProps } from 'next';
-import type { Filter } from '../../src/lib/searchFilters';
+import type { Filter } from '../../src/types/global';
 import type { TrackSearchState } from '../../src/store/slices/trackSearchSlice';
 
 interface Track {

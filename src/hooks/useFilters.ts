@@ -23,16 +23,23 @@ export default function useFilters<FiltersType extends TrackOrCarFilters>(
   // useMemo is used to memoize the filtered data array.
   // This computation will only be re-executed when activeFilters or data changes.
   const filteredData = useMemo(() => {
+    // Check if any filter is set
+    const isAnyFilterActive = Object.values(activeFilters).some(
+      (filterValue) => filterValue
+    );
+
+    // If no filters are active, return all data
+    if (!isAnyFilterActive) {
+      return [...data];
+    }
+
+    // If filters are active, return filtered data
     return [...data].filter((item) => {
-      // Iterate over each filter in activeFilters.
       for (let filter in activeFilters) {
-        // If a filter value is set and doesn't match the item's value,
-        // the item is not included in the filtered results.
         if (activeFilters[filter] && item[filter] !== activeFilters[filter]) {
           return false;
         }
       }
-      // If an item passes all filters, it's included in the filtered results.
       return true;
     });
   }, [activeFilters, data]);

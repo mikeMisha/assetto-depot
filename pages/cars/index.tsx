@@ -3,10 +3,11 @@ import ContentList from '../../src/components/ContentList';
 import Card from '@mui/material/Card';
 import Box from '@mui/system/Box';
 import Image from 'next/image';
-import Link from '../../src/components/Link';
+import NextLink from 'next/link';
+import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
 import Search from '../../src/components/Search';
-import { useState } from 'react';
+import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import Typography from '@mui/material/Typography';
 import { useSelector, useDispatch } from 'react-redux';
@@ -14,20 +15,39 @@ import {
   updateTerm,
   updateFilters,
 } from '../../src/store/slices/carSearchSlice';
-
+import type { CarSearchState } from '../../src/store/slices/carSearchSlice';
+import { RootState } from '../../src/store/store';
 import { carFilters } from '../../src/lib/searchFilters';
+import { Filter } from '../../src/types/global';
+import { supabase } from '../../src/lib/initSupabase';
 
-function carPage({ filters }) {
+interface carPageProps {
+  filters: Filter[];
+}
+
+interface Car {
+  id: number;
+  name: string;
+}
+
+function carPage(props: carPageProps) {
+  const { filters } = props;
   const router = useRouter();
   const dispatch = useDispatch();
-  const searchValue = useSelector((state) => state.carSearch.term);
-  const filtersValues = useSelector((state) => state.carSearch.filters);
+  const searchValue = useSelector((state: RootState) => state.carSearch.term);
+  const activeFilters = useSelector(
+    (state: RootState) => state.carSearch.filters
+  );
 
-  const handleFilters = (filterObj) => {
-    dispatch(updateFilters(filterObj));
+  const handleFilters = (filterObj: Partial<CarSearchState['filters']>) => {
+    const newFilters = {
+      ...activeFilters,
+      ...filterObj,
+    };
+    dispatch(updateFilters(newFilters));
   };
 
-  const handleSearchValue = (value) => {
+  const handleSearchValue = (value: string) => {
     dispatch(updateTerm(value));
   };
 
@@ -39,7 +59,7 @@ function carPage({ filters }) {
   return (
     <>
       <Box sx={{ pt: 3 }}>
-        <Typography component="h2" align="center" variant="title">
+        <Typography component="h2" align="center" variant="h2">
           CARS
         </Typography>
         <Typography variant="subtitle1" align="center">
@@ -49,17 +69,16 @@ function carPage({ filters }) {
 
       <Search
         filters={filters}
-        filtersValues={filtersValues}
+        activeFilters={activeFilters}
         handleFilters={handleFilters}
         searchValue={searchValue}
         handleSearchValue={handleSearchValue}
         handleSearchSubmit={handleSearchSubmit}
       />
-      <ContentList maxCols="4" colBreakPoints={[3, 6, 8]}>
-        {filters
-          .find((filter) => filter.label === 'brand')
-          .items.map((brand) => (
-            <Link href={`/cars/${brand}`} key={brand}>
+      <ContentList colBreakPoints={[3, 6, 8]}>
+        {(filters.find((filter) => filter.label === 'brand')?.items || []).map(
+          (brand) => (
+            <Link component={NextLink} href={`/cars/${brand}`} key={brand}>
               <Button sx={{ width: '100%' }}>
                 <Card
                   sx={{
@@ -98,16 +117,24 @@ function carPage({ filters }) {
                 </Card>
               </Button>
             </Link>
-          ))}
+          )
+        )}
       </ContentList>
     </>
   );
 }
-export const getStaticProps = wrapper.getStaticProps((store) => () => {
-  return {
-    props: {
-      filters: carFilters,
-    },
-  };
-});
+export const getStaticProps: GetStaticProps = wrapper.getStaticProps(
+  () => async () => {
+    const { data: cars, error } = await supabase.from<Car>('tracks').select();
+    // TODO: Handle the error
+    if (error) console.error(error);
+
+    return {
+      props: {
+        cars: cars,
+        filters: carFilters,
+      },
+    };
+  }
+);
 export default carPage;

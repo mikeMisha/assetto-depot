@@ -72,7 +72,7 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
   }, [sortValue, data]);
 
   const currentPaginationData = useCurrentPaginationData({
-    data: sortedData,
+    data: sortedData || [],
     pageSize,
     currentPage,
   });

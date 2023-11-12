@@ -17,7 +17,12 @@ function NoResults() {
     >
       <SentimentVeryDissatisfiedIcon fontSize="large" color="primary" />
       <Typography variant="h4" align="center">
-        No Results Found
+        No Results Found.
+      </Typography>
+      <br />
+
+      <Typography variant="h6" align="center">
+        Head to our submission page to add a cars or tracks!
       </Typography>
     </Box>
   );

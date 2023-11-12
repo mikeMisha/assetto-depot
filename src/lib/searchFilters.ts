@@ -1,14 +1,6 @@
 import { carBrands } from '../data/carBrands.json';
-
+import type { Filter } from '../../src/types/global';
 // Define the structure of a filter
-export interface Filter {
-  label: string;
-  items: string[];
-}
-
-export type ActiveFilters = {
-  [key in Filter['label']]?: string;
-};
 
 export const trackFilters: Filter[] = [
   {

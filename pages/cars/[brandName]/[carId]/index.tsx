@@ -2,22 +2,15 @@ import DetailsPage from '../../../../src/components/DetailsPage';
 import { supabase } from '../../../../src/lib/initSupabase';
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-
-// Define TypeScript interfaces for the Car object and CarPage props
-interface Car {
-  id: number;
-  brand: string;
-  // Add other car properties here based on your data
-}
+import type { Car } from '../../../../src/types/global';
 
 interface CarPageProps {
   car: Car;
-  type: string;
 }
 
 // Define the CarPage component with typed props
-function CarPage({ car, type }: CarPageProps) {
-  return <DetailsPage type={type} data={car} />;
+function CarPage({ car }: CarPageProps) {
+  return <DetailsPage data={{ ...car, type: 'cars' }} />;
 }
 
 // Type for getStaticPaths context params
@@ -65,7 +58,7 @@ export const getStaticProps: GetStaticProps<CarPageProps, Params> = async (
   }
 
   return {
-    props: { car, type: 'cars' },
+    props: { car },
     revalidate: 10,
   };
 };

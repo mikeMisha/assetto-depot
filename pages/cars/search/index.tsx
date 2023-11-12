@@ -13,7 +13,7 @@ import {
 import { wrapper } from '../../../src/store/store';
 import { carFilters } from '../../../src/lib/searchFilters';
 import { supabase } from '../../../src/lib/initSupabase';
-import type { Filter } from '../../../src/lib/searchFilters';
+import type { Filter } from '../../../src/types/global';
 import type { CarSearchState } from '../../../src/store/slices/carSearchSlice';
 import { RootState } from '../../../src/store/store';
 
@@ -98,7 +98,7 @@ const CarPage = (props: CarPageProps) => {
 export const getStaticProps = wrapper.getStaticProps((store) => async () => {
   const { data: cars, error } = await supabase.from('cars').select();
 
-  //TODO: Handle the error
+  //TODO: Handle the erro r
   if (error) console.error(error);
 
   return {

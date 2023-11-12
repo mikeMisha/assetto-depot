@@ -2,24 +2,7 @@ import { supabase } from '../../../src/lib/initSupabase';
 import DetailsPage from '../../../src/components/DetailsPage';
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-
-export interface Track {
-  id: string;
-  name: string;
-  credit?: string;
-  image?: string;
-  likes?: number;
-  dislikes?: number;
-  downloads?: number;
-  downloadLink?: string;
-  brand?: string;
-  location?: string;
-  category?: string;
-  trans?: string;
-  version?: string;
-  type: 'cars' | 'tracks';
-  description?: string;
-}
+import { Track } from '../../../src/types/global';
 
 // Define TypeScript interface for TrackPage props
 interface TrackPageProps {

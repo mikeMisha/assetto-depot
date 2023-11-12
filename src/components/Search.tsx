@@ -10,7 +10,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import IconButton from '@mui/material/IconButton';
 import type { SelectChangeEvent } from '@mui/material/Select';
-import type { Filter, ActiveFilters } from '../lib/searchFilters';
+import type { Filter } from '../../src/types/global';
 import type { CarSearchState } from '../../src/store/slices/carSearchSlice';
 import type { TrackSearchState } from '../../src/store/slices/trackSearchSlice';
 

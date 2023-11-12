@@ -92,7 +92,6 @@ const LikeDislike = ({ data, type }: LikeDislikeProps) => {
         setLikes((prev) => prev + 1); // Increment likes
         setLikeActive(true);
         if (dislikeActive) {
-          console.log('ran');
           setDislikes((prev) => prev - 1); // Decrement dislikes if it was previously disliked
           setDislikeActive(false); // Reset dislike active state
         }

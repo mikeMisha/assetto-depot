@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
+import { Track, Car } from '../../types/global';
 // Define a type for the slice state
 export interface PaginationState {
   isSingleCol: boolean;
   pageSize: number;
   currentPage: number;
   sortValue: 'top rated' | 'most downloads' | 'a-z';
-  sortedData: any[]; // Replace 'any' with the type of your sorted data items
+  sortedData: Track[] | Car[] | []; // Replace 'any' with the type of your sorted data items
 }
 
 // Define the initial state using the `PaginationState` type

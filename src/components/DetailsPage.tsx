@@ -33,7 +33,10 @@ interface DetailsPageProps {
 
 function DetailsPage({ data }: DetailsPageProps) {
   return (
-    <Container maxWidth="lg" sx={{ mt: 5 }}>
+    <Container
+      maxWidth="lg"
+      sx={{ pt: 5, bgcolor: '#dee2e6', width: '100%', height: '100%' }}
+    >
       <Paper>
         <Image
           src={data.image || '/images/placeholder.png'}
@@ -63,7 +66,7 @@ function DetailsPage({ data }: DetailsPageProps) {
             />
             <Typography>
               <FileDownloadIcon fontSize="small" sx={{ ml: 3, mr: 1.5 }} />
-              {formatNumber(data.downloads)}
+              {formatNumber(data.downloads || 0)}
             </Typography>
           </Stack>
 
@@ -78,7 +81,7 @@ function DetailsPage({ data }: DetailsPageProps) {
 
             {data.location && (
               <Typography align="left" variant="subtitle1">
-                <strong>Location: </strong> {data.location}{' '}
+                <strong>Location: </strong> {data.location}
               </Typography>
             )}
 

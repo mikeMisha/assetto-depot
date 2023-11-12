@@ -16,7 +16,7 @@ const ContentList = (props: ContentListProps) => {
           display: 'flex',
           flexShrink: 0,
           justifyContent: 'center',
-          bgcolor: 'background.main',
+          bgcolor: '#dee2e6',
         }}
       >
         <Box sx={{ width: '1600px' }}>
