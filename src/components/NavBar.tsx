@@ -13,7 +13,7 @@ import Image from 'next/image';
 import AppBar from '@mui/material/AppBar';
 const pages = [
   { title: 'home', path: '/' },
-  { title: 'cars', path: '/cars/search' },
+  { title: 'cars', path: '/cars' },
   { title: 'tracks', path: '/tracks' },
   { title: 'submission form', path: '/submission-form' },
 ];
