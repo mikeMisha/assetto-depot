@@ -95,10 +95,10 @@ const CarPage = (props: CarPageProps) => {
     </>
   );
 };
-export const getStaticProps = wrapper.getStaticProps((store) => async () => {
+export const getStaticProps = wrapper.getStaticProps(() => async () => {
   const { data: cars, error } = await supabase.from('cars').select();
 
-  //TODO: Handle the erro r
+  //TODO: Handle the error
   if (error) console.error(error);
 
   return {
