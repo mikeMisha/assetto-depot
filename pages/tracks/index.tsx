@@ -79,7 +79,7 @@ const TracksPage = (props: TracksPageProps) => {
         handleSearchValue={handleSearchValue}
       />
       <PaginatedCollection
-        dataType="tracks"
+        dataCategory="tracks"
         hasResults={!!resultsData?.length}
         data={resultsData}
       />

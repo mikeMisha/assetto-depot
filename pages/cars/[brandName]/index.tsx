@@ -22,7 +22,7 @@ function CarBrandPage(props: CarBrandPageProps) {
         />
       </Box>
       <PaginatedCollection
-        dataType="cars"
+        dataCategory="cars"
         data={brandCars}
         hasResults={Boolean(brandCars?.length)}
       />

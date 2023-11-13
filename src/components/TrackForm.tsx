@@ -20,7 +20,7 @@ export interface TrackFormProps {
     link: string;
     credit: string;
     version: Number;
-    type: string;
+    trackType: string;
     description: string;
     img: File | null;
   };
@@ -152,7 +152,7 @@ function TrackForm(props: TrackFormProps) {
               labelId="type-label"
               id="type-select"
               name="type"
-              value={formValues.type}
+              value={formValues.trackType}
               onChange={handleSelectChange}
               label="type"
             >

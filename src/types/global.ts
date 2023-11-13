@@ -12,7 +12,7 @@ export interface Track {
   category?: string;
   trans?: string;
   version?: string;
-  type: 'cars' | 'tracks';
+  trackType?: string;
   description?: string;
 }
 
@@ -23,6 +23,7 @@ export interface Car {
   image: string;
   downloadLink: string;
   dislikes: number;
+  likes: number;
   downloads: number;
   trans: 'auto' | 'manual';
   credit: string;
@@ -33,6 +34,7 @@ export interface Filter {
   label: string;
   items: string[];
 }
+export type dataCategory = 'tracks' | 'cars';
 
 export type ActiveFilters = {
   [key in Filter['label']]?: string;

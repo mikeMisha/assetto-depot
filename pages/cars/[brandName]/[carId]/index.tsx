@@ -10,7 +10,7 @@ interface CarPageProps {
 
 // Define the CarPage component with typed props
 function CarPage({ car }: CarPageProps) {
-  return <DetailsPage data={{ ...car, type: 'cars' }} />;
+  return <DetailsPage data={car} dataCategory="cars" />;
 }
 
 // Type for getStaticPaths context params

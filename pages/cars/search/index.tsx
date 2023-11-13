@@ -88,7 +88,7 @@ const CarPage = (props: CarPageProps) => {
         handleSearchValue={handleSearchValue}
       />
       <PaginatedCollection
-        dataType="cars"
+        dataCategory="cars"
         hasResults={!!resultsData?.length}
         data={resultsData}
       />

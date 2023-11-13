@@ -8,7 +8,7 @@ export const trackFilters: Filter[] = [
     items: ['circuit', 'drift', 'touge', 'kart', 'rally', 'street'],
   },
   {
-    label: 'type',
+    label: 'track type',
     items: ['loop', 'street', 'a to b'],
   },
 ];

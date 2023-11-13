@@ -10,28 +10,15 @@ import titleCase from '../lib/titleCase';
 import DownloadBtn from './DownloadBtn';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import formatNumber from '../lib/formatNumber';
+import type { Track, Car, dataCategory } from '../types/global';
 
 interface DetailsPageProps {
-  data: {
-    id: string;
-    name: string;
-    credit?: string;
-    image?: string;
-    likes?: number;
-    dislikes?: number;
-    downloads?: number;
-    downloadLink?: string;
-    brand?: string;
-    location?: string;
-    category?: string;
-    trans?: string;
-    version?: string;
-    type: 'cars' | 'tracks';
-    description?: string;
-  };
+  data: Track | Car;
+  dataCategory: dataCategory;
 }
 
-function DetailsPage({ data }: DetailsPageProps) {
+function DetailsPage({ data, dataCategory }: DetailsPageProps) {
+  console.log(data);
   return (
     <div style={{ backgroundColor: '#dee2e6', height: '100%' }}>
       <Container
@@ -53,9 +40,9 @@ function DetailsPage({ data }: DetailsPageProps) {
               </Typography>
             </Box>
             <Stack
-              direction={{ xs: 'column', md: 'row' }}
+              direction={{ xs: 'row' }}
               spacing={{ xs: 0 }}
-              sx={{ flexWrap: 'wrap', alignItems: 'center' }}
+              sx={{ alignItems: 'center' }}
             >
               <LikeDislike
                 data={{
@@ -63,9 +50,9 @@ function DetailsPage({ data }: DetailsPageProps) {
                   likes: data.likes || 0,
                   dislikes: data.dislikes || 0,
                 }}
-                type={data.type}
+                dataCategory={dataCategory}
               />
-              <Typography>
+              <Typography sx={{ display: 'flex', alignItems: 'center' }}>
                 <FileDownloadIcon fontSize="small" sx={{ ml: 3, mr: 1.5 }} />
                 {formatNumber(data.downloads || 0)}
               </Typography>
@@ -80,15 +67,15 @@ function DetailsPage({ data }: DetailsPageProps) {
                 <strong>Credit:</strong> {data.credit}
               </Typography>
 
-              {data.location && (
+              {dataCategory === 'tracks' && (
                 <Typography align="left" variant="subtitle1">
-                  <strong>Location: </strong> {data.location}
+                  <strong>Location: </strong> {(data as Track).location}
                 </Typography>
               )}
 
-              {data.type && (
+              {dataCategory === 'tracks' && (
                 <Typography align="left" variant="subtitle1">
-                  <strong>Type: </strong> {data.type}
+                  <strong>Track type: </strong> {(data as Track).trackType}
                 </Typography>
               )}
 
@@ -108,22 +95,22 @@ function DetailsPage({ data }: DetailsPageProps) {
                 </Typography>
               )}
 
-              {data.version && (
+              {dataCategory === 'tracks' && (
                 <Typography align="left" variant="subtitle1">
-                  <strong>Version:</strong> {data.version}
+                  <strong>Version:</strong> {(data as Track).version}
                 </Typography>
               )}
             </Stack>
-            {data.description && (
+            {dataCategory === 'tracks' && (
               <Box>
                 <Typography variant="body1" color="text.secondary">
-                  {data.description}
+                  {(data as Track).description}
                 </Typography>
               </Box>
             )}
             <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
               <DownloadBtn
-                type={data.type}
+                dataCategory={dataCategory}
                 link={data.downloadLink || ''}
                 typeId={data.id}
                 downloads={data.downloads || 0}

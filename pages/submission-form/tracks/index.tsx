@@ -5,7 +5,7 @@ const defaultValues = {
   name: '',
   description: '',
   category: '',
-  type: '',
+  trackType: '',
   version: 0,
   location: '',
   link: '',

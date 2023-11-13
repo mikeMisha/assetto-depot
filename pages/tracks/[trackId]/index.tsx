@@ -11,7 +11,7 @@ interface TrackPageProps {
 
 function TrackPage(props: TrackPageProps) {
   const { track } = props;
-  return <DetailsPage data={track} />;
+  return <DetailsPage data={track} dataCategory="tracks" />;
 }
 
 // Type for getStaticPaths context params

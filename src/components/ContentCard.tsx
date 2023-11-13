@@ -8,14 +8,14 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import formatNumber from '../lib/formatNumber';
 import Stack from '@mui/material/Stack';
-import { useRouter } from 'next/router';
 import Image from 'next/image';
 import NextLink from 'next/link';
 import Link from '@mui/material/Link';
 import DownloadBtn from './DownloadBtn';
+import type { dataCategory } from '../types/global';
 
 interface ContentCardProps {
-  dataType: string;
+  dataCategory: dataCategory;
   data: {
     id: string;
     name: string;
@@ -31,8 +31,7 @@ interface ContentCardProps {
 }
 
 const ContentCard = (props: ContentCardProps) => {
-  const { dataType, data, isSingleCol } = props;
-  const router = useRouter().pathname.split('/')[1];
+  const { dataCategory, data, isSingleCol } = props;
 
   return (
     <Card
@@ -129,7 +128,7 @@ const ContentCard = (props: ContentCardProps) => {
               <Link
                 component={NextLink}
                 href={
-                  dataType == 'cars'
+                  dataCategory == 'cars'
                     ? `${data.brand}/${data.id}`
                     : `tracks/${data.id}`
                 }
@@ -137,7 +136,7 @@ const ContentCard = (props: ContentCardProps) => {
                 <Button variant="contained">Details</Button>
               </Link>
               <DownloadBtn
-                type={router}
+                dataCategory={dataCategory}
                 link={data.downloadLink}
                 typeId={data.id}
                 downloads={data.downloads}
