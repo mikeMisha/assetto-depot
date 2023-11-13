@@ -8,11 +8,12 @@ import titleCase from '../lib/titleCase';
 import DownloadBtn from './DownloadBtn';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import formatNumber from '../lib/formatNumber';
-import type { Track, Car, dataCategory } from '../types/global';
+import type { Track, Car, DataCategory } from '../types/global';
+import LikeDislike from './LikeDislike';
 
 interface DetailsPageProps {
   data: Track | Car;
-  dataCategory: dataCategory;
+  dataCategory: DataCategory;
 }
 
 function DetailsPage({ data, dataCategory }: DetailsPageProps) {
@@ -37,7 +38,16 @@ function DetailsPage({ data, dataCategory }: DetailsPageProps) {
                 {data.name}
               </Typography>
             </Box>
+
             <Stack direction="row" spacing={1}>
+              <LikeDislike
+                data={{
+                  id: data.id,
+                  likes: data.likes || 0,
+                  dislikes: data.dislikes || 0,
+                }}
+                dataCategory={dataCategory}
+              />
               <Typography sx={{ mr: 2 }}>Downloads:</Typography>
               {formatNumber(data.downloads || 0)}
               <FileDownloadIcon fontSize="small" />

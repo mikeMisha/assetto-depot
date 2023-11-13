@@ -1,10 +1,10 @@
 import { supabase } from '../../src/lib/initSupabase';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import type { dataCategory } from '../../src/types/global';
+import type { DataCategory } from '../../src/types/global';
 // Define the expected request body type
 interface RequestBody {
   itemIds: number[];
-  dataCategory: dataCategory;
+  dataCategory: DataCategory;
 }
 
 // Define the response type

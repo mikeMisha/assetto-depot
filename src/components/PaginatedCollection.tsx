@@ -15,10 +15,10 @@ import {
 } from '../store/slices/paginationSlice';
 import type { RootState } from '../store/store';
 import type { SelectChangeEvent } from '@mui/material/Select';
-import { dataCategory } from '../types/global';
+import { DataCategory } from '../types/global';
 
 interface PaginatedCollectionProps {
-  dataCategory: dataCategory;
+  dataCategory: DataCategory;
   data: any[];
   hasResults: boolean;
 }
