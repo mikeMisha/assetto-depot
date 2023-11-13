@@ -100,7 +100,7 @@ export const getStaticProps: GetStaticProps = wrapper.getStaticProps(
         tracks: tracks ? tracks.sort((a, b) => a.id - b.id) : [],
         filters: trackFilters,
       },
-      revalidate: 10,
+      revalidate: 60 * 60, // Revalidate once every hour
     };
   }
 );

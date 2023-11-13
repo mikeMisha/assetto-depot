@@ -57,7 +57,7 @@ export const getStaticProps: GetStaticProps<TrackPageProps, Params> = async (
 
   return {
     props: { track },
-    revalidate: 10,
+    revalidate: 60 * 60, // Revalidate once every hour
   };
 };
 
