@@ -16,7 +16,7 @@ import {
 } from '../store/slices/paginationSlice';
 import type { RootState } from '../store/store';
 import type { SelectChangeEvent } from '@mui/material/Select';
-import { DataCategory, SortValue } from '../types/global';
+import { DataCategory, SortValue, Track, Car } from '../types/global';
 import axios from 'axios';
 
 interface PaginatedCollectionProps {
@@ -93,6 +93,7 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
     };
   }, [router.events]);
 
+  // fetch likes/dislikes for the current pagination data
   useEffect(() => {
     if (hasResults) fetchLikesDislikes();
   }, [currentPaginationData]);
@@ -192,7 +193,7 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
         sortValue={sortValue}
       >
         <ContentList isSingleCol={isSingleCol}>
-          {loading
+          {loading || currentPaginationData.length === 0
             ? renderSkeleton(pageSize)
             : currentPaginationData.map((item: any) => (
                 <ContentCard
