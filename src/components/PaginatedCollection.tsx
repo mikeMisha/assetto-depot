@@ -181,7 +181,7 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
   return hasResults ? (
     <>
       <ContentPagination
-        data={data}
+        data={items}
         isSingleCol={isSingleCol}
         pageSize={pageSize}
         currentPage={currentPage}

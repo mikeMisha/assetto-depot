@@ -78,8 +78,8 @@ function DetailsPage({ data, dataCategory }: DetailsPageProps) {
                   <LikeDislike
                     data={{
                       id: data.id,
-                      likes: data.likes || 0,
-                      dislikes: data.dislikes || 0,
+                      likes: item.likes || 0,
+                      dislikes: item.dislikes || 0,
                     }}
                     dataCategory={dataCategory}
                   />
