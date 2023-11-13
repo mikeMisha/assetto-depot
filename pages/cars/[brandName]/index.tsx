@@ -72,7 +72,7 @@ export async function getStaticProps(
       brandCars: cars.filter((car) => car.brand === carBrand),
       brand: carBrand,
     },
-    revalidate: 10,
+    revalidate: 60 * 60, // Revalidate once every hour
   };
 }
 

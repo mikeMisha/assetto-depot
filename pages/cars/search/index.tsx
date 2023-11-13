@@ -106,7 +106,7 @@ export const getStaticProps = wrapper.getStaticProps(() => async () => {
       cars: cars ? cars.sort((a, b) => a.id - b.id) : [],
       filters: carFilters,
     },
-    revalidate: 10,
+    revalidate: 60 * 60, // Revalidate once every hour
   };
 });
 export default CarPage;
