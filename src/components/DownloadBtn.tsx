@@ -1,10 +1,9 @@
-import React from 'react';
 import { Button } from '@mui/material';
 import axios from 'axios';
-import type { dataCategory } from '../types/global';
+import type { DataCategory } from '../types/global';
 interface DownloadBtnProps {
   link: string;
-  dataCategory: dataCategory;
+  dataCategory: DataCategory;
   typeId: string;
   downloads: number;
 }

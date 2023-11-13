@@ -3,19 +3,19 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import formatNumber from '../lib/formatNumber';
 import Stack from '@mui/material/Stack';
 import Image from 'next/image';
 import NextLink from 'next/link';
 import Link from '@mui/material/Link';
 import DownloadBtn from './DownloadBtn';
-import type { dataCategory } from '../types/global';
+import type { DataCategory } from '../types/global';
 
 interface ContentCardProps {
-  dataCategory: dataCategory;
+  dataCategory: DataCategory;
   data: {
     id: string;
     name: string;
@@ -106,18 +106,20 @@ const ContentCard = (props: ContentCardProps) => {
                 mt: 1,
               }}
             >
-              <Typography sx={{ mr: 2 }}>
-                <ThumbUpIcon fontSize="small" sx={{ mr: 0.5 }} />
-                {data.likes}
-              </Typography>
-              <Typography sx={{ mr: 2 }}>
-                <ThumbDownIcon fontSize="small" sx={{ mr: 0.5 }} />
-                {data.dislikes}
-              </Typography>
-              <Typography>
-                <FileDownloadIcon fontSize="small" sx={{ mr: 0.5 }} />
-                {formatNumber(data.downloads)}
-              </Typography>
+              <Stack direction="row" spacing={1}>
+                <Typography sx={{ mr: 2 }}>
+                  <ThumbUpIcon fontSize="small" sx={{ mr: 0.5 }} />
+                  {data.likes}
+                </Typography>
+                <Typography sx={{ mr: 2 }}>
+                  <ThumbDownIcon fontSize="small" sx={{ mr: 0.5 }} />
+                  {data.dislikes}
+                </Typography>
+                <Typography>
+                  <FileDownloadIcon fontSize="small" sx={{ mr: 0.5 }} />
+                  {formatNumber(data.downloads)}
+                </Typography>
+              </Stack>
             </Box>
 
             <Stack
