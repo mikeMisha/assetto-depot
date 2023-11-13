@@ -15,8 +15,9 @@ import {
 } from '../store/slices/paginationSlice';
 import type { RootState } from '../store/store';
 import type { SelectChangeEvent } from '@mui/material/Select';
-import { DataCategory } from '../types/global';
+import { DataCategory, SortValue } from '../types/global';
 import axios from 'axios';
+import { has } from 'cypress/types/lodash';
 
 interface PaginatedCollectionProps {
   dataCategory: DataCategory;
@@ -25,7 +26,6 @@ interface PaginatedCollectionProps {
 }
 
 // Type definition for sorting options
-type SortValue = 'top rated' | 'most downloads' | 'a-z';
 
 const PaginatedCollection = (props: PaginatedCollectionProps) => {
   const { dataCategory, data, hasResults } = props;
@@ -55,31 +55,48 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
     currentPage,
   });
 
-  useEffect(() => {
-    const fetchLikesDislikes = async () => {
-      const updatedProducts = await Promise.all(
-        currentPaginationData.map(async (item) => {
-          try {
-            const response = await axios.get('/api/likes-dislikes', {
-              params: { id: item.id, type: dataCategory },
-            });
-            return { ...item, ...response.data };
-          } catch (error) {
-            console.error(
-              'Error fetching likes/dislikes for product:',
-              item.id,
-              error
-            );
-            return item; // Return the product without updated likes/dislikes in case of error
-          }
-        })
-      );
+  const fetchLikesDislikes = async () => {
+    setLoading(true);
+    const updatedProducts = await Promise.all(
+      currentPaginationData.map(async (item) => {
+        try {
+          const response = await axios.get('/api/likes-dislikes', {
+            params: { id: item.id, type: dataCategory },
+          });
+          return { ...item, ...response.data };
+        } catch (error) {
+          console.error(
+            'Error fetching likes/dislikes for product:',
+            item.id,
+            error
+          );
+          return item; // Return the product without updated likes/dislikes in case of error
+        }
+      })
+    );
 
-      setItems(updatedProducts);
-      setLoading(false);
+    setItems(updatedProducts);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        // The page has become visible, so refresh the data
+        console.log('Page is visible, fetching likes/dislikes...');
+        if (hasResults) fetchLikesDislikes();
+      }
     };
 
-    fetchLikesDislikes();
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (hasResults) fetchLikesDislikes();
   }, [currentPaginationData]);
 
   // Effect for handling window resize and setting single column layout
