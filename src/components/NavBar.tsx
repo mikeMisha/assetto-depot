@@ -92,7 +92,7 @@ export default function NavBar() {
                     key={page.title}
                     href={page.path}
                   >
-                    <Typography textAlign="center">
+                    <Typography textAlign="center" sx={{ color: 'black' }}>
                       {page.title.toUpperCase()}
                     </Typography>
                   </Link>
