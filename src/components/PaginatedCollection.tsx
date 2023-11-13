@@ -14,7 +14,6 @@ import {
   setPageSize,
 } from '../store/slices/paginationSlice';
 import type { RootState } from '../store/store';
-import type { PaginationState } from '../store/slices/paginationSlice';
 import type { SelectChangeEvent } from '@mui/material/Select';
 import { Track, Car, dataCategory } from '../types/global';
 
@@ -23,11 +22,14 @@ interface PaginatedCollectionProps {
   data: any[];
   hasResults: boolean;
 }
+
+// Type definition for sorting options
 type SortValue = 'top rated' | 'most downloads' | 'a-z';
 
 const PaginatedCollection = (props: PaginatedCollectionProps) => {
   const { dataCategory, data, hasResults } = props;
 
+  // Redux dispatch and state selectors
   const dispatch = useDispatch();
   const isSingleCol = useSelector(
     (state: RootState) => state.pagination.isSingleCol
@@ -43,15 +45,24 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
     (state: RootState) => state.pagination.sortedData
   );
 
+  // Effect for handling window resize and setting single column layout
   useEffect(() => {
+    const handleResize = () => {
+      dispatch(setIsSingleCol(window.innerWidth < 900));
+    };
+
     if (typeof window !== 'undefined') {
-      setIsSingleCol(window.innerWidth < 900);
-      window.addEventListener('resize', () =>
-        window.innerWidth < 900 ? setIsSingleCol(true) : setIsSingleCol(false)
-      );
+      handleResize();
+      window.addEventListener('resize', handleResize);
     }
-  }, []);
-  const sortData = (sortValue: PaginationState['sortValue']) => {
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [dispatch]);
+
+  // Function to sort data based on the selected sort value
+  const sortData = (sortValue: SortValue) => {
     const dataCopy = [...data];
 
     switch (sortValue) {
@@ -64,63 +75,64 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
       case 'a-z':
         dataCopy.sort((a, b) => a.name.localeCompare(b.name));
         break;
+      default:
+        break;
     }
 
     return dataCopy;
   };
+
+  // Effect to sort data whenever sortValue or data changes
   useEffect(() => {
     dispatch(setSortedData(sortData(sortValue)));
-  }, [sortValue, data]);
+  }, [sortValue, data, dispatch]);
 
+  // Custom hook to manage current pagination data
   const currentPaginationData = useCurrentPaginationData({
     data: sortedData || [],
     pageSize,
     currentPage,
   });
 
+  // Handler for column change
+  const handleColChange = (bool: boolean) => {
+    dispatch(setIsSingleCol(bool));
+  };
+
+  // Handlers for pagination and sorting changes
   const updatePerPage = (event: SelectChangeEvent) => {
-    const pageSize = parseInt(event.target.value);
-    dispatch(setPageSize(pageSize));
+    dispatch(setPageSize(parseInt(event.target.value)));
     dispatch(setCurrentPage(1));
   };
 
   const updatePage = (e: React.ChangeEvent<unknown>, page: number) => {
     dispatch(setCurrentPage(page));
   };
-
-  const handleColChange = (bool: boolean) => {
-    dispatch(setIsSingleCol(bool));
+  const isSortValue = (value: any): value is SortValue => {
+    return ['top rated', 'most downloads', 'a-z'].includes(value);
   };
 
   const handleSort = (event: SelectChangeEvent) => {
-    type SortValue = 'top rated' | 'most downloads' | 'a-z';
-
-    const isSortValue = (value: any): value is SortValue => {
-      return ['top rated', 'most downloads', 'a-z'].includes(value);
-    };
-
     const value = event.target.value;
 
     if (isSortValue(value)) {
       dispatch(setSortValue(value));
     } else {
-      // Handle the unexpected value
       console.error('Invalid sort option:', value);
     }
   };
 
-  const renderSkeleton = (amount: number) => {
-    return [...Array(pageSize)].map((item, i) => {
-      return (
-        <Skeleton
-          key={i}
-          variant="rectangular"
-          sx={{ width: '100%', paddingTop: '60%' }}
-        />
-      );
-    });
-  };
+  // Function to render loading skeletons
+  const renderSkeleton = (amount: number) =>
+    [...Array(amount)].map((_, i) => (
+      <Skeleton
+        key={i}
+        variant="rectangular"
+        sx={{ width: '100%', paddingTop: '60%' }}
+      />
+    ));
 
+  // Main component rendering logic
   return hasResults ? (
     <>
       <ContentPagination
@@ -130,17 +142,17 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
         currentPage={currentPage}
         updatePerPage={updatePerPage}
         updatePage={updatePage}
-        handleColChange={handleColChange}
         handleSort={handleSort}
+        handleColChange={handleColChange}
         sortValue={sortValue}
       >
         <ContentList isSingleCol={isSingleCol}>
-          {!currentPaginationData?.length
+          {currentPaginationData.length === 0
             ? renderSkeleton(pageSize)
             : currentPaginationData.map((item: any) => (
                 <ContentCard
-                  isSingleCol={isSingleCol}
                   key={item.id}
+                  isSingleCol={isSingleCol}
                   data={item}
                   dataCategory={dataCategory}
                 />
@@ -152,36 +164,5 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
     <NoResults />
   );
 };
-
-interface LikeDislikeData {
-  id: number;
-  likes: number;
-  dislikes: number;
-}
-
-function updateLikesDislikes(
-  originalData: Track[] | Car[],
-  likeDislikeData: LikeDislikeData[]
-) {
-  const updatedData = originalData.map((item) => {
-    const match = likeDislikeData.find(
-      (ld) => Number(ld.id) === Number(item.id)
-    );
-
-    // If a match is found, update the likes and dislikes
-    if (match) {
-      return {
-        ...item,
-        likes: match.likes,
-        dislikes: match.dislikes,
-      };
-    }
-
-    // If no match is found, return the item as is
-    return item;
-  });
-
-  return updatedData;
-}
 
 export default PaginatedCollection;
