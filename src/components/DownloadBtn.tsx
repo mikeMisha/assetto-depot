@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button } from '@mui/material';
 import axios from 'axios';
 import type { dataCategory } from '../types/global';

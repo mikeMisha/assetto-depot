@@ -1,4 +1,3 @@
-import React from 'react';
 import Box from '@mui/system/Box';
 import Paper from '@mui/material/Paper';
 import Image from 'next/image';

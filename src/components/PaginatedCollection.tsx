@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ContentList from './ContentList';
 import ContentPagination from './ContentPagination';
@@ -6,7 +6,6 @@ import useCurrentPaginationData from '../hooks/useCurrentPaginationData';
 import ContentCard from './ContentCard';
 import NoResults from './NoResults';
 import Skeleton from '@mui/material/Skeleton';
-import axios from 'axios';
 import {
   setCurrentPage,
   setIsSingleCol,
@@ -28,8 +27,6 @@ type SortValue = 'top rated' | 'most downloads' | 'a-z';
 
 const PaginatedCollection = (props: PaginatedCollectionProps) => {
   const { dataCategory, data, hasResults } = props;
-  const [completedData, setCompletedData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   const dispatch = useDispatch();
   const isSingleCol = useSelector(
@@ -80,37 +77,6 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
     pageSize,
     currentPage,
   });
-
-  useEffect(() => {
-    const fetchLikesDislikes = async (itemIds: number[]) => {
-      try {
-        const response = await axios.post('/api/getLikesDislikes', {
-          itemIds,
-          dataCategory: dataCategory,
-        });
-
-        return response.data;
-      } catch (error) {
-        console.error('Failed to fetch likes and dislikes:', error);
-        return [];
-      }
-    };
-
-    const fetchData = async () => {
-      if (currentPaginationData) {
-        const itemIds = currentPaginationData.map((item) => Number(item.id));
-
-        const response = await fetchLikesDislikes(itemIds.map(Number));
-        const updatedData = updateLikesDislikes(
-          currentPaginationData,
-          response
-        );
-        console.log('updatedData', updatedData);
-      }
-    };
-
-    fetchData();
-  }, [currentPaginationData]);
 
   const updatePerPage = (event: SelectChangeEvent) => {
     const pageSize = parseInt(event.target.value);
