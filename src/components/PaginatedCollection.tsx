@@ -6,6 +6,7 @@ import useCurrentPaginationData from '../hooks/useCurrentPaginationData';
 import ContentCard from './ContentCard';
 import NoResults from './NoResults';
 import Skeleton from '@mui/material/Skeleton';
+import { useRouter } from 'next/router';
 import {
   setCurrentPage,
   setIsSingleCol,
@@ -30,7 +31,7 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
   const { dataCategory, data, hasResults } = props;
   const [items, setItems] = useState(data);
   const [loading, setLoading] = useState(true);
-
+  const router = useRouter();
   // Redux dispatch and state selectors
   const dispatch = useDispatch();
   const isSingleCol = useSelector(
@@ -79,19 +80,18 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
   };
 
   useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        // The page has become visible, so refresh the data
-        if (hasResults) fetchLikesDislikes();
-      }
+    const handleRouteChange = () => {
+      // Refetch the product list data
+      fetchLikesDislikes();
+      console.log('route changed');
     };
 
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    router.events.on('routeChangeComplete', handleRouteChange);
 
     return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      router.events.off('routeChangeComplete', handleRouteChange);
     };
-  }, []);
+  }, [router.events]);
 
   useEffect(() => {
     if (hasResults) fetchLikesDislikes();
