@@ -15,7 +15,7 @@ import {
 } from '../store/slices/paginationSlice';
 import type { RootState } from '../store/store';
 import type { SelectChangeEvent } from '@mui/material/Select';
-import { Track, Car, dataCategory } from '../types/global';
+import { dataCategory } from '../types/global';
 
 interface PaginatedCollectionProps {
   dataCategory: dataCategory;
