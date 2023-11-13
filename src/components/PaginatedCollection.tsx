@@ -83,7 +83,6 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
         // The page has become visible, so refresh the data
-        console.log('Page is visible, fetching likes/dislikes...');
         if (hasResults) fetchLikesDislikes();
       }
     };

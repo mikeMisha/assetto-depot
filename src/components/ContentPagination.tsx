@@ -38,7 +38,7 @@ const ContentPagination = (props: ContentPaginationProps) => {
     handleSort,
     sortValue,
   } = props;
-  console.log(sortValue);
+
   return (
     <>
       <Box

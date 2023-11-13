@@ -12,7 +12,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     const { dataCategory, id, reaction, previousReaction } =
       req.body as ReactionRequestBody;
-    console.log('req.body', req.body);
 
     try {
       // Fetch current likes and dislikes
