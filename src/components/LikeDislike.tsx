@@ -6,7 +6,7 @@ import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
 import axios from 'axios';
 import { debounce, set } from 'lodash';
-
+import type { dataCategory } from '../types/global';
 const thumbStyle = {
   mr: 0.5,
   '&:hover': { color: 'primary.main', cursor: 'pointer' },
@@ -18,27 +18,25 @@ interface LikeDislikeProps {
     likes: number;
     dislikes: number;
   };
-  type: 'tracks' | 'cars';
+  dataCategory: dataCategory;
 }
 
 interface InteractionItem {
   id: string;
   liked: boolean;
   disliked: boolean;
+  wasActive: boolean;
 }
 
 interface StoredInteractions {
   [key: string]: InteractionItem[];
 }
 
-const LikeDislike = ({ data, type }: LikeDislikeProps) => {
+const LikeDislike = ({ data, dataCategory }: LikeDislikeProps) => {
   const [likes, setLikes] = useState(data.likes);
   const [dislikes, setDislikes] = useState(data.dislikes);
   const [likeActive, setLikeActive] = useState(false);
   const [dislikeActive, setDislikeActive] = useState(false);
-
-  // Ref to track if it's the initial load
-  const isInitialLoad = useRef(true);
 
   // Migrate the local storage update to a separate function
   const updateLocalStorage = (interaction: InteractionItem) => {
@@ -48,15 +46,23 @@ const LikeDislike = ({ data, type }: LikeDislikeProps) => {
       : {};
 
     const updatedItems =
-      localInteractions[type]?.filter((i) => i.id !== interaction.id) || [];
+      localInteractions[dataCategory]?.filter((i) => i.id !== interaction.id) ||
+      [];
     updatedItems.push(interaction);
 
     localStorage.setItem(
       'interactions',
-      JSON.stringify({ ...localInteractions, [type]: updatedItems })
+      JSON.stringify({ ...localInteractions, [dataCategory]: updatedItems })
     );
 
-    axios.post('/api/interaction', interaction).catch((err) => {
+    const payload = {
+      dataCategory: dataCategory,
+      id: interaction.id,
+      liked: interaction.liked,
+      disliked: interaction.disliked,
+      wasActive: interaction.wasActive,
+    };
+    axios.post('/api/interaction', payload).catch((err) => {
       console.error(
         err.response?.status === 404
           ? 'Resource could not be found!'
@@ -75,15 +81,18 @@ const LikeDislike = ({ data, type }: LikeDislikeProps) => {
       ? JSON.parse(localInteractionsStr)
       : {};
 
-    const interaction = localInteractions[type]?.find((i) => i.id === data.id);
+    const interaction = localInteractions[dataCategory]?.find(
+      (i) => i.id === data.id
+    );
     if (interaction) {
       setLikeActive(interaction.liked);
       setDislikeActive(interaction.disliked);
     }
-  }, [data.id, type]);
+  }, [data.id, dataCategory]);
 
   const onThumbClick = (thumbType: 'up' | 'down') => {
     // If the thumb is already active, reset the state
+    const wasActive = likeActive || dislikeActive;
     if (thumbType === 'up') {
       if (likeActive) {
         setLikes((prev) => (prev > 0 ? prev - 1 : 0)); // Decrement likes only if it was previously liked
@@ -114,6 +123,7 @@ const LikeDislike = ({ data, type }: LikeDislikeProps) => {
       id: data.id,
       liked: thumbType === 'up',
       disliked: thumbType === 'down',
+      wasActive,
     });
   };
 
