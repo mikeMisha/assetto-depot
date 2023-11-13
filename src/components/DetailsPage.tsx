@@ -5,7 +5,6 @@ import Image from 'next/image';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
-import LikeDislike from './LikeDislike';
 import titleCase from '../lib/titleCase';
 import DownloadBtn from './DownloadBtn';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -39,23 +38,10 @@ function DetailsPage({ data, dataCategory }: DetailsPageProps) {
                 {data.name}
               </Typography>
             </Box>
-            <Stack
-              direction={{ xs: 'row' }}
-              spacing={{ xs: 0 }}
-              sx={{ alignItems: 'center' }}
-            >
-              <LikeDislike
-                data={{
-                  id: data.id,
-                  likes: data.likes || 0,
-                  dislikes: data.dislikes || 0,
-                }}
-                dataCategory={dataCategory}
-              />
-              <Typography sx={{ display: 'flex', alignItems: 'center' }}>
-                <FileDownloadIcon fontSize="small" sx={{ ml: 3, mr: 1.5 }} />
-                {formatNumber(data.downloads || 0)}
-              </Typography>
+            <Stack direction="row" spacing={1}>
+              <Typography sx={{ mr: 2 }}>Downloads:</Typography>
+              {formatNumber(data.downloads || 0)}
+              <FileDownloadIcon fontSize="small" />
             </Stack>
 
             <Stack

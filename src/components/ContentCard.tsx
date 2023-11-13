@@ -106,18 +106,11 @@ const ContentCard = (props: ContentCardProps) => {
                 mt: 1,
               }}
             >
-              <Typography sx={{ mr: 2 }}>
-                <ThumbUpIcon fontSize="small" sx={{ mr: 0.5 }} />
-                {data.likes}
-              </Typography>
-              <Typography sx={{ mr: 2 }}>
-                <ThumbDownIcon fontSize="small" sx={{ mr: 0.5 }} />
-                {data.dislikes}
-              </Typography>
-              <Typography>
-                <FileDownloadIcon fontSize="small" sx={{ mr: 0.5 }} />
-                {formatNumber(data.downloads)}
-              </Typography>
+              <Stack direction="row" spacing={1}>
+                <Typography sx={{ mr: 2 }}>Downloads:</Typography>
+                {formatNumber(data.downloads || 0)}
+                <FileDownloadIcon fontSize="small" />
+              </Stack>
             </Box>
 
             <Stack
