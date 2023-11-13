@@ -98,7 +98,7 @@ const Search = <FiltersType extends Record<string, any>>({
                   <Select
                     labelId={`${filter.label}-label`}
                     id={filter.label}
-                    value={activeFilters[filter.label]}
+                    value={activeFilters[filter.label] || ''}
                     onChange={(e) => handleSelect(e, filter.label)}
                     label={filter.label}
                   >

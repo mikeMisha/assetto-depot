@@ -9,7 +9,7 @@ import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { SelectChangeEvent } from '@mui/material/Select';
-
+import { SortValue } from '../types/global';
 const PAGE_SIZES = [15, 25, 50, 100];
 
 interface ContentPaginationProps {
@@ -22,7 +22,7 @@ interface ContentPaginationProps {
   updatePerPage: (e: SelectChangeEvent) => void;
   handleColChange: (isSingleCol: boolean) => void;
   handleSort: (e: SelectChangeEvent) => void;
-  sortValue: string;
+  sortValue: SortValue;
 }
 
 const ContentPagination = (props: ContentPaginationProps) => {
@@ -38,7 +38,7 @@ const ContentPagination = (props: ContentPaginationProps) => {
     handleSort,
     sortValue,
   } = props;
-
+  console.log(sortValue);
   return (
     <>
       <Box
@@ -105,7 +105,7 @@ const ContentPagination = (props: ContentPaginationProps) => {
               <InputLabel id="sort-label">Sort</InputLabel>
               <Select
                 labelId="sort-label"
-                value={sortValue}
+                value={sortValue || 'top rated'}
                 label="sort"
                 onChange={handleSort}
                 sx={{ maxWidth: '100px' }}

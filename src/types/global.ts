@@ -35,6 +35,7 @@ export interface Filter {
   items: string[];
 }
 export type DataCategory = 'tracks' | 'cars';
+export type SortValue = 'top rated' | 'most downloads' | 'a-z';
 
 export type ActiveFilters = {
   [key in Filter['label']]?: string;
