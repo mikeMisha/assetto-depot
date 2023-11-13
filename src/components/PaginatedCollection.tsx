@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ContentList from './ContentList';
 import ContentPagination from './ContentPagination';
@@ -6,6 +6,7 @@ import useCurrentPaginationData from '../hooks/useCurrentPaginationData';
 import ContentCard from './ContentCard';
 import NoResults from './NoResults';
 import Skeleton from '@mui/material/Skeleton';
+import axios from 'axios';
 import {
   setCurrentPage,
   setIsSingleCol,
@@ -16,16 +17,19 @@ import {
 import type { RootState } from '../store/store';
 import type { PaginationState } from '../store/slices/paginationSlice';
 import type { SelectChangeEvent } from '@mui/material/Select';
+import { Track, Car, dataCategory } from '../types/global';
 
 interface PaginatedCollectionProps {
-  dataType: string;
+  dataCategory: dataCategory;
   data: any[];
   hasResults: boolean;
 }
 type SortValue = 'top rated' | 'most downloads' | 'a-z';
 
 const PaginatedCollection = (props: PaginatedCollectionProps) => {
-  const { dataType, data, hasResults } = props;
+  const { dataCategory, data, hasResults } = props;
+  const [completedData, setCompletedData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const dispatch = useDispatch();
   const isSingleCol = useSelector(
@@ -76,6 +80,37 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
     pageSize,
     currentPage,
   });
+
+  useEffect(() => {
+    const fetchLikesDislikes = async (itemIds: number[]) => {
+      try {
+        const response = await axios.post('/api/getLikesDislikes', {
+          itemIds,
+          dataCategory: dataCategory,
+        });
+
+        return response.data;
+      } catch (error) {
+        console.error('Failed to fetch likes and dislikes:', error);
+        return [];
+      }
+    };
+
+    const fetchData = async () => {
+      if (currentPaginationData) {
+        const itemIds = currentPaginationData.map((item) => Number(item.id));
+
+        const response = await fetchLikesDislikes(itemIds.map(Number));
+        const updatedData = updateLikesDislikes(
+          currentPaginationData,
+          response
+        );
+        console.log('updatedData', updatedData);
+      }
+    };
+
+    fetchData();
+  }, [currentPaginationData]);
 
   const updatePerPage = (event: SelectChangeEvent) => {
     const pageSize = parseInt(event.target.value);
@@ -141,7 +176,7 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
                   isSingleCol={isSingleCol}
                   key={item.id}
                   data={item}
-                  dataType={dataType}
+                  dataCategory={dataCategory}
                 />
               ))}
         </ContentList>
@@ -151,5 +186,36 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
     <NoResults />
   );
 };
+
+interface LikeDislikeData {
+  id: number;
+  likes: number;
+  dislikes: number;
+}
+
+function updateLikesDislikes(
+  originalData: Track[] | Car[],
+  likeDislikeData: LikeDislikeData[]
+) {
+  const updatedData = originalData.map((item) => {
+    const match = likeDislikeData.find(
+      (ld) => Number(ld.id) === Number(item.id)
+    );
+
+    // If a match is found, update the likes and dislikes
+    if (match) {
+      return {
+        ...item,
+        likes: match.likes,
+        dislikes: match.dislikes,
+      };
+    }
+
+    // If no match is found, return the item as is
+    return item;
+  });
+
+  return updatedData;
+}
 
 export default PaginatedCollection;
