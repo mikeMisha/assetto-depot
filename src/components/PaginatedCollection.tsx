@@ -17,7 +17,6 @@ import type { RootState } from '../store/store';
 import type { SelectChangeEvent } from '@mui/material/Select';
 import { DataCategory, SortValue } from '../types/global';
 import axios from 'axios';
-import { has } from 'cypress/types/lodash';
 
 interface PaginatedCollectionProps {
   dataCategory: DataCategory;
