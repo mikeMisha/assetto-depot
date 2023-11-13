@@ -34,7 +34,7 @@ export interface Filter {
   label: string;
   items: string[];
 }
-export type dataCategory = 'tracks' | 'cars';
+export type DataCategory = 'tracks' | 'cars';
 
 export type ActiveFilters = {
   [key in Filter['label']]?: string;

@@ -1,20 +1,19 @@
-import React from 'react';
 import Box from '@mui/system/Box';
 import Paper from '@mui/material/Paper';
 import Image from 'next/image';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
-import LikeDislike from './LikeDislike';
 import titleCase from '../lib/titleCase';
 import DownloadBtn from './DownloadBtn';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import formatNumber from '../lib/formatNumber';
-import type { Track, Car, dataCategory } from '../types/global';
+import type { Track, Car, DataCategory } from '../types/global';
+import LikeDislike from './LikeDislike';
 
 interface DetailsPageProps {
   data: Track | Car;
-  dataCategory: dataCategory;
+  dataCategory: DataCategory;
 }
 
 function DetailsPage({ data, dataCategory }: DetailsPageProps) {
@@ -39,11 +38,8 @@ function DetailsPage({ data, dataCategory }: DetailsPageProps) {
                 {data.name}
               </Typography>
             </Box>
-            <Stack
-              direction={{ xs: 'row' }}
-              spacing={{ xs: 0 }}
-              sx={{ alignItems: 'center' }}
-            >
+
+            <Stack direction="row" spacing={1}>
               <LikeDislike
                 data={{
                   id: data.id,
@@ -52,10 +48,9 @@ function DetailsPage({ data, dataCategory }: DetailsPageProps) {
                 }}
                 dataCategory={dataCategory}
               />
-              <Typography sx={{ display: 'flex', alignItems: 'center' }}>
-                <FileDownloadIcon fontSize="small" sx={{ ml: 3, mr: 1.5 }} />
-                {formatNumber(data.downloads || 0)}
-              </Typography>
+              <Typography sx={{ mr: 2 }}>Downloads:</Typography>
+              {formatNumber(data.downloads || 0)}
+              <FileDownloadIcon fontSize="small" />
             </Stack>
 
             <Stack

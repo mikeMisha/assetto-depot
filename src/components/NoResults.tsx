@@ -1,6 +1,6 @@
-import React from 'react';
 import { Box, Typography } from '@mui/material';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+
 function NoResults() {
   return (
     <Box

@@ -11,6 +11,7 @@ import Link from '@mui/material/Link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import AppBar from '@mui/material/AppBar';
+
 const pages = [
   { title: 'home', path: '/' },
   { title: 'cars', path: '/cars' },
@@ -92,7 +93,7 @@ export default function NavBar() {
                     key={page.title}
                     href={page.path}
                   >
-                    <Typography textAlign="center">
+                    <Typography textAlign="center" sx={{ color: 'black' }}>
                       {page.title.toUpperCase()}
                     </Typography>
                   </Link>

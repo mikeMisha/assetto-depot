@@ -9,9 +9,7 @@ import Radio from '@mui/material/Radio';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { SelectChangeEvent } from '@mui/material/Select';
-
 import Button from '@mui/material/Button';
-
 import { Box, InputLabel } from '@mui/material';
 
 const categories = [
