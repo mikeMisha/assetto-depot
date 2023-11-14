@@ -6,6 +6,7 @@ import useCurrentPaginationData from '../hooks/useCurrentPaginationData';
 import ContentCard from './ContentCard';
 import NoResults from './NoResults';
 import Skeleton from '@mui/material/Skeleton';
+import { useRouter } from 'next/router';
 import {
   setCurrentPage,
   setIsSingleCol,
@@ -15,9 +16,8 @@ import {
 } from '../store/slices/paginationSlice';
 import type { RootState } from '../store/store';
 import type { SelectChangeEvent } from '@mui/material/Select';
-import { DataCategory, SortValue } from '../types/global';
+import { DataCategory, SortValue, Track, Car } from '../types/global';
 import axios from 'axios';
-import { has } from 'cypress/types/lodash';
 
 interface PaginatedCollectionProps {
   dataCategory: DataCategory;
@@ -31,7 +31,7 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
   const { dataCategory, data, hasResults } = props;
   const [items, setItems] = useState(data);
   const [loading, setLoading] = useState(true);
-
+  const router = useRouter();
   // Redux dispatch and state selectors
   const dispatch = useDispatch();
   const isSingleCol = useSelector(
@@ -80,20 +80,20 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
   };
 
   useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        // The page has become visible, so refresh the data
-        if (hasResults) fetchLikesDislikes();
-      }
+    const handleRouteChange = () => {
+      // Refetch the product list data
+      fetchLikesDislikes();
+      console.log('route changed');
     };
 
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    router.events.on('routeChangeComplete', handleRouteChange);
 
     return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      router.events.off('routeChangeComplete', handleRouteChange);
     };
-  }, []);
+  }, [router.events]);
 
+  // fetch likes/dislikes for the current pagination data
   useEffect(() => {
     if (hasResults) fetchLikesDislikes();
   }, [currentPaginationData]);
@@ -182,7 +182,7 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
   return hasResults ? (
     <>
       <ContentPagination
-        data={data}
+        data={items}
         isSingleCol={isSingleCol}
         pageSize={pageSize}
         currentPage={currentPage}
@@ -193,7 +193,7 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
         sortValue={sortValue}
       >
         <ContentList isSingleCol={isSingleCol}>
-          {loading
+          {loading || currentPaginationData.length === 0
             ? renderSkeleton(pageSize)
             : currentPaginationData.map((item: any) => (
                 <ContentCard

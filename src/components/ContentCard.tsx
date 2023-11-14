@@ -13,20 +13,11 @@ import NextLink from 'next/link';
 import Link from '@mui/material/Link';
 import DownloadBtn from './DownloadBtn';
 import type { DataCategory } from '../types/global';
+import { Track, Car } from '../types/global';
 
 interface ContentCardProps {
   dataCategory: DataCategory;
-  data: {
-    id: string;
-    name: string;
-    credit: string;
-    image: string;
-    likes: number;
-    dislikes: number;
-    downloads: number;
-    downloadLink: string;
-    brand?: string;
-  };
+  data: Track | Car;
   isSingleCol?: boolean;
 }
 
@@ -64,7 +55,7 @@ const ContentCard = (props: ContentCardProps) => {
             height={495}
             layout="responsive"
             priority
-            src={data.image}
+            src={data.image || '/images/placeholder.png'}
           />
         </Box>
         <Box
@@ -117,7 +108,7 @@ const ContentCard = (props: ContentCardProps) => {
                 </Typography>
                 <Typography>
                   <FileDownloadIcon fontSize="small" sx={{ mr: 0.5 }} />
-                  {formatNumber(data.downloads)}
+                  {formatNumber(data.downloads || 0)}
                 </Typography>
               </Stack>
             </Box>
@@ -139,9 +130,9 @@ const ContentCard = (props: ContentCardProps) => {
               </Link>
               <DownloadBtn
                 dataCategory={dataCategory}
-                link={data.downloadLink}
+                link={data.downloadLink || ''}
                 typeId={data.id}
-                downloads={data.downloads}
+                downloads={data.downloads || 0}
               />
             </Stack>
           </Box>
