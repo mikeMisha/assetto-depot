@@ -1,6 +1,6 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { createWrapper, MakeStore } from 'next-redux-wrapper';
-import { Action, AnyAction, Store } from 'redux';
+import { AnyAction, Store } from 'redux';
 
 import trackSearchReducer from './slices/trackSearchSlice';
 import carSearchReducer from './slices/carSearchSlice';

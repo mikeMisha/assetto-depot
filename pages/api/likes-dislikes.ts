@@ -19,10 +19,8 @@ export default async function handler(
   }
 
   try {
-    // Assuming a unified table for likes/dislikes across products
-    // Adjust the query if your database schema is different
     const { data, error } = await supabase
-      .from(type) // 'tracks' or 'cars'
+      .from(type)
       .select('likes, dislikes')
       .eq('id', id)
       .single();

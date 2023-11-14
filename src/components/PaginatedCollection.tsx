@@ -24,13 +24,17 @@ interface PaginatedCollectionProps {
   hasResults: boolean;
 }
 
-// Type definition for sorting options
+type SortedLikedData =
+  | (Track & { likes?: number; dislikes?: number })
+  | (Car & { likes?: number; dislikes?: number });
 
 const PaginatedCollection = (props: PaginatedCollectionProps) => {
   const { dataCategory, data, hasResults } = props;
   const [loading, setLoading] = useState(true);
-  const [displayData, setDisplayData] = useState<any[]>([]); // State for data to display
-  const [likesDislikesData, setLikesDislikesData] = useState<any[]>([]); // New state for likes/dislikes
+  const [displayData, setDisplayData] = useState<SortedLikedData[]>([]);
+  const [likesDislikesData, setLikesDislikesData] = useState<SortedLikedData[]>(
+    []
+  ); // New state for likes/dislikes
   const dispatch = useDispatch();
   const router = useRouter();
 

@@ -11,7 +11,7 @@ export type TrackOrCarFilters = FiltersFromState<
 >;
 
 interface DataItem {
-  [key: string]: any; // Replace 'any' with the actual type of your item properties
+  [key: string]: any;
 }
 
 // The useFilters hook takes an object containing the current filter values

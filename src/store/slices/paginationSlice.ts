@@ -6,7 +6,7 @@ export interface PaginationState {
   pageSize: number;
   currentPage: number;
   sortValue: SortValue;
-  sortedData: Track[] | Car[] | []; // Replace 'any' with the type of your sorted data items
+  sortedData: Track[] | Car[] | [];
 }
 
 // Define the initial state using the `PaginationState` type
@@ -34,8 +34,8 @@ const paginationSlice = createSlice({
     setSortValue(state, action: PayloadAction<PaginationState['sortValue']>) {
       state.sortValue = action.payload;
     },
-    // Replace 'any' with the type of your sorted data items
-    setSortedData(state, action: PayloadAction<any[]>) {
+
+    setSortedData(state, action: PayloadAction<PaginationState['sortedData']>) {
       state.sortedData = action.payload;
     },
   },
