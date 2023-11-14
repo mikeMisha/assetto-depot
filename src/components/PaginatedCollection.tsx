@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ContentList from './ContentList';
 import ContentPagination from './ContentPagination';
@@ -29,11 +29,13 @@ interface PaginatedCollectionProps {
 
 const PaginatedCollection = (props: PaginatedCollectionProps) => {
   const { dataCategory, data, hasResults } = props;
-  const [items, setItems] = useState(data);
   const [loading, setLoading] = useState(true);
+  const [displayData, setDisplayData] = useState<any[]>([]); // State for data to display
+  const [likesDislikesData, setLikesDislikesData] = useState(new Map()); // State to store likes/dislikes
   const router = useRouter();
   // Redux dispatch and state selectors
   const dispatch = useDispatch();
+
   const isSingleCol = useSelector(
     (state: RootState) => state.pagination.isSingleCol
   );
@@ -44,79 +46,43 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
   const sortValue = useSelector(
     (state: RootState) => state.pagination.sortValue
   );
-  const sortedData = useSelector(
-    (state: RootState) => state.pagination.sortedData
-  );
+  // Sort data based on sortValue
+  useEffect(() => {
+    const sorted = sortData(data, sortValue);
+    const start = (currentPage - 1 || 0) * pageSize;
+    const end = currentPage * pageSize;
+    const sliced = sorted.slice(start, end);
+    setDisplayData(sliced);
+  }, [data, sortValue, currentPage, pageSize]);
 
-  // Custom hook to manage current pagination data
-  const currentPaginationData = useCurrentPaginationData({
-    data: sortedData || [],
-    pageSize,
-    currentPage,
-  });
+  // Fetch likes/dislikes for the display data
+  useEffect(() => {
+    if (hasResults && displayData.length > 0) {
+      fetchLikesDislikes();
+    }
+  }, [displayData, hasResults]);
 
+  // Function to fetch likes/dislikes
   const fetchLikesDislikes = async () => {
-    setLoading(true);
-    const updatedProducts = await Promise.all(
-      currentPaginationData.map(async (item) => {
-        try {
+    try {
+      const likesDislikesMap = new Map();
+      await Promise.all(
+        displayData.map(async (item) => {
           const response = await axios.get('/api/likes-dislikes', {
             params: { id: item.id, type: dataCategory },
           });
-          return { ...item, ...response.data };
-        } catch (error) {
-          console.error(
-            'Error fetching likes/dislikes for product:',
-            item.id,
-            error
-          );
-          return item; // Return the product without updated likes/dislikes in case of error
-        }
-      })
-    );
-
-    setItems(updatedProducts);
+          likesDislikesMap.set(item.id, response.data);
+        })
+      );
+      setLikesDislikesData(likesDislikesMap);
+    } catch (error) {
+      console.error('Error fetching likes/dislikes:', error);
+    }
     setLoading(false);
   };
-
-  useEffect(() => {
-    const handleRouteChange = () => {
-      // Refetch the product list data
-      fetchLikesDislikes();
-      console.log('route changed');
-    };
-
-    router.events.on('routeChangeComplete', handleRouteChange);
-
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange);
-    };
-  }, [router.events]);
-
-  // fetch likes/dislikes for the current pagination data
-  useEffect(() => {
-    if (hasResults) fetchLikesDislikes();
-  }, [currentPaginationData]);
-
-  // Effect for handling window resize and setting single column layout
-  useEffect(() => {
-    const handleResize = () => {
-      dispatch(setIsSingleCol(window.innerWidth < 900));
-    };
-
-    if (typeof window !== 'undefined') {
-      handleResize();
-      window.addEventListener('resize', handleResize);
-    }
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [dispatch]);
-
-  // Function to sort data based on the selected sort value
-  const sortData = (sortValue: SortValue) => {
-    const dataCopy = [...data];
+  // Sort function
+  const sortData = (dataToSort: any[], sortValue: SortValue) => {
+    const dataCopy = [...dataToSort];
 
     switch (sortValue) {
       case 'top rated':
@@ -134,11 +100,15 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
 
     return dataCopy;
   };
-
-  // Effect to sort data whenever sortValue or data changes
-  useEffect(() => {
-    dispatch(setSortedData(sortData(sortValue)));
-  }, [sortValue, data, dispatch]);
+  // Function to render loading skeletons
+  const renderSkeleton = (amount: number) =>
+    [...Array(amount)].map((_, i) => (
+      <Skeleton
+        key={i}
+        variant="rectangular"
+        sx={{ width: '100%', paddingTop: '60%' }}
+      />
+    ));
 
   // Handler for column change
   const handleColChange = (bool: boolean) => {
@@ -167,22 +137,10 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
       console.error('Invalid sort option:', value);
     }
   };
-
-  // Function to render loading skeletons
-  const renderSkeleton = (amount: number) =>
-    [...Array(amount)].map((_, i) => (
-      <Skeleton
-        key={i}
-        variant="rectangular"
-        sx={{ width: '100%', paddingTop: '60%' }}
-      />
-    ));
-
-  // Main component rendering logic
   return hasResults ? (
     <>
       <ContentPagination
-        data={items}
+        data={data}
         isSingleCol={isSingleCol}
         pageSize={pageSize}
         currentPage={currentPage}
@@ -193,9 +151,9 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
         sortValue={sortValue}
       >
         <ContentList isSingleCol={isSingleCol}>
-          {loading || currentPaginationData.length === 0
+          {loading
             ? renderSkeleton(pageSize)
-            : currentPaginationData.map((item: any) => (
+            : displayData.map((item: any) => (
                 <ContentCard
                   key={item.id}
                   isSingleCol={isSingleCol}

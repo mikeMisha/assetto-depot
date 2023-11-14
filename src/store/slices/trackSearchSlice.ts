@@ -4,7 +4,7 @@ export interface TrackSearchState {
   term: string;
   filters: {
     category: string;
-    type: string;
+    trackType: string;
   };
 }
 
@@ -12,7 +12,7 @@ const initialState = {
   term: '',
   filters: {
     category: '',
-    type: '',
+    trackType: '',
   },
 };
 
@@ -27,6 +27,7 @@ const trackSearchSlice = createSlice({
       state: TrackSearchState,
       action: PayloadAction<TrackSearchState['filters']>
     ) {
+      console.log('action.payload', action.payload);
       const update = { ...state.filters, ...action.payload };
       return { ...state, filters: update };
     },

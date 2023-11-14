@@ -76,7 +76,7 @@ function carPage(props: carPageProps) {
         handleSearchSubmit={handleSearchSubmit}
       />
       <ContentList colBreakPoints={[3, 6, 8]}>
-        {(filters.find((filter) => filter.label === 'brand')?.items || []).map(
+        {(filters.find((filter) => filter.value === 'brand')?.items || []).map(
           (brand) => (
             <Link component={NextLink} href={`/cars/${brand}`} key={brand}>
               <Button sx={{ width: '100%' }}>

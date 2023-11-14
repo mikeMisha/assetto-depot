@@ -4,18 +4,21 @@ import type { Filter } from '../../src/types/global';
 
 export const trackFilters: Filter[] = [
   {
-    label: 'category',
+    label: 'Category',
+    value: 'category',
     items: ['circuit', 'drift', 'touge', 'kart', 'rally', 'street'],
   },
   {
-    label: 'track type',
+    label: 'Track type',
+    value: 'trackType',
     items: ['loop', 'street', 'a to b'],
   },
 ];
 
 export const carFilters: Filter[] = [
   {
-    label: 'category',
+    label: 'Category',
+    value: 'category',
     items: [
       'f1',
       'drift',
@@ -29,7 +32,8 @@ export const carFilters: Filter[] = [
     ],
   },
   {
-    label: 'brand',
+    label: 'Brand',
+    value: 'brand',
     items: carBrands,
   },
 ];

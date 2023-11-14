@@ -14,7 +14,7 @@ import AppBar from '@mui/material/AppBar';
 
 const pages = [
   { title: 'home', path: '/' },
-  { title: 'cars', path: '/cars' },
+  { title: 'cars', path: '/cars/search' },
   { title: 'tracks', path: '/tracks' },
   { title: 'submission form', path: '/submission-form' },
 ];

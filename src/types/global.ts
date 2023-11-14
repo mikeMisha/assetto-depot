@@ -32,6 +32,7 @@ export interface Car {
 
 export interface Filter {
   label: string;
+  value: string;
   items: string[];
 }
 export type DataCategory = 'tracks' | 'cars';

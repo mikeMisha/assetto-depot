@@ -88,7 +88,7 @@ export default function Home() {
                 orientation="vertical"
                 flexItem
               />
-              <Link href="/cars">
+              <Link href="/cars/search">
                 <Button
                   sx={{
                     whiteSpace: 'nowrap',

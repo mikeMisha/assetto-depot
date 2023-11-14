@@ -97,9 +97,9 @@ const Search = <FiltersType extends Record<string, any>>({
                   </InputLabel>
                   <Select
                     labelId={`${filter.label}-label`}
-                    id={filter.label}
-                    value={activeFilters[filter.label] || ''}
-                    onChange={(e) => handleSelect(e, filter.label)}
+                    id={filter.value}
+                    value={activeFilters[filter.value] || ''}
+                    onChange={(e) => handleSelect(e, filter.value)}
                     label={filter.label}
                   >
                     <MenuItem value="">
