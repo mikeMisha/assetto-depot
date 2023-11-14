@@ -30,6 +30,8 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
   const { dataCategory, data, hasResults } = props;
   const [loading, setLoading] = useState(true);
   const [displayData, setDisplayData] = useState<any[]>([]); // State for data to display
+  const [likesDislikesData, setLikesDislikesData] = useState<any[]>([]); // New state for likes/dislikes
+
   const router = useRouter();
   // Redux dispatch and state selectors
   const dispatch = useDispatch();
@@ -66,16 +68,17 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
 
   // Function to fetch likes/dislikes
   const fetchLikesDislikes = async () => {
+    setLoading(true);
     try {
-      const likesDislikesMap = new Map();
-      await Promise.all(
+      const updatedData = await Promise.all(
         displayData.map(async (item) => {
           const response = await axios.get('/api/likes-dislikes', {
             params: { id: item.id, type: dataCategory },
           });
-          likesDislikesMap.set(item.id, response.data);
+          return { ...item, ...response.data };
         })
       );
+      setLikesDislikesData(updatedData); // Update likes/dislikes state
     } catch (error) {
       console.error('Error fetching likes/dislikes:', error);
     }
@@ -170,7 +173,7 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
         <ContentList isSingleCol={isSingleCol}>
           {loading
             ? renderSkeleton(pageSize)
-            : displayData.map((item: any) => (
+            : likesDislikesData.map((item: any) => (
                 <ContentCard
                   key={item.id}
                   isSingleCol={isSingleCol}
