@@ -1,8 +1,7 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ContentList from './ContentList';
 import ContentPagination from './ContentPagination';
-import useCurrentPaginationData from '../hooks/useCurrentPaginationData';
 import ContentCard from './ContentCard';
 import NoResults from './NoResults';
 import Skeleton from '@mui/material/Skeleton';
@@ -16,7 +15,7 @@ import {
 } from '../store/slices/paginationSlice';
 import type { RootState } from '../store/store';
 import type { SelectChangeEvent } from '@mui/material/Select';
-import { DataCategory, SortValue, Track, Car } from '../types/global';
+import { DataCategory, SortValue } from '../types/global';
 import axios from 'axios';
 
 interface PaginatedCollectionProps {
@@ -31,7 +30,6 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
   const { dataCategory, data, hasResults } = props;
   const [loading, setLoading] = useState(true);
   const [displayData, setDisplayData] = useState<any[]>([]); // State for data to display
-  const [likesDislikesData, setLikesDislikesData] = useState(new Map()); // State to store likes/dislikes
   const router = useRouter();
   // Redux dispatch and state selectors
   const dispatch = useDispatch();
@@ -52,6 +50,10 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
     const start = (currentPage - 1 || 0) * pageSize;
     const end = currentPage * pageSize;
     const sliced = sorted.slice(start, end);
+    if (currentPage > Math.ceil(data.length / pageSize)) {
+      dispatch(setCurrentPage(1));
+    }
+
     setDisplayData(sliced);
   }, [data, sortValue, currentPage, pageSize]);
 
@@ -74,7 +76,6 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
           likesDislikesMap.set(item.id, response.data);
         })
       );
-      setLikesDislikesData(likesDislikesMap);
     } catch (error) {
       console.error('Error fetching likes/dislikes:', error);
     }
@@ -100,6 +101,22 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
 
     return dataCopy;
   };
+
+  // Fetch likes/dislikes when the route changes
+  useEffect(() => {
+    const handleRouteChange = () => {
+      if (hasResults && displayData.length > 0) {
+        fetchLikesDislikes();
+      }
+    };
+
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.events, displayData, hasResults, fetchLikesDislikes]);
+
   // Function to render loading skeletons
   const renderSkeleton = (amount: number) =>
     [...Array(amount)].map((_, i) => (
