@@ -74,7 +74,10 @@ function DetailsPage({ data, dataCategory }: DetailsPageProps) {
                   </Typography>
                 </Box>
 
-                <Stack direction="row" spacing={1}>
+                <Stack
+                  direction="row"
+                  sx={{ display: 'flex', alignItems: 'center' }}
+                >
                   <LikeDislike
                     data={{
                       id: data.id,
@@ -83,9 +86,10 @@ function DetailsPage({ data, dataCategory }: DetailsPageProps) {
                     }}
                     dataCategory={dataCategory}
                   />
-                  <Typography sx={{ mr: 2 }}>Downloads:</Typography>
-                  {formatNumber(data.downloads || 0)}
-                  <FileDownloadIcon fontSize="small" />
+                  <Stack direction="row" spacing={1}>
+                    <FileDownloadIcon fontSize="small" />
+                    <Typography>{formatNumber(data.downloads || 0)}</Typography>
+                  </Stack>
                 </Stack>
 
                 <Stack
