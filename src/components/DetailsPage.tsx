@@ -86,8 +86,18 @@ function DetailsPage({ data, dataCategory }: DetailsPageProps) {
                     }}
                     dataCategory={dataCategory}
                   />
-                  <Stack direction="row" spacing={1}>
-                    <FileDownloadIcon fontSize="small" />
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <FileDownloadIcon
+                      style={{ color: 'gray' }}
+                      fontSize="small"
+                    />
                     <Typography>{formatNumber(data.downloads || 0)}</Typography>
                   </Stack>
                 </Stack>
