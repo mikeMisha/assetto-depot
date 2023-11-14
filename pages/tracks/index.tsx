@@ -14,13 +14,8 @@ import { trackFilters } from '../../src/lib/searchFilters';
 import { supabase } from '../../src/lib/initSupabase';
 import { RootState } from '../../src/store/store';
 import { GetStaticProps } from 'next';
-import type { Filter } from '../../src/types/global';
+import type { Filter, Track } from '../../src/types/global';
 import type { TrackSearchState } from '../../src/store/slices/trackSearchSlice';
-
-interface Track {
-  id: number;
-  name: string;
-}
 
 interface TracksPageProps {
   tracks: Track[];
@@ -81,7 +76,7 @@ const TracksPage = (props: TracksPageProps) => {
       <PaginatedCollection
         dataCategory="tracks"
         hasResults={!!resultsData?.length}
-        data={resultsData}
+        data={resultsData as Track[]}
       />
     </>
   );
@@ -97,7 +92,9 @@ export const getStaticProps: GetStaticProps = wrapper.getStaticProps(
 
     return {
       props: {
-        tracks: tracks ? tracks.sort((a, b) => a.id - b.id) : [],
+        tracks: tracks
+          ? tracks.sort((a, b) => Number(a.id) - Number(b.id))
+          : [],
         filters: trackFilters,
       },
       revalidate: 60 * 60, // Revalidate once every hour

@@ -1,19 +1,19 @@
 export interface Track {
   id: string;
   name: string;
-  credit?: string;
-  image?: string;
-  likes?: number;
-  dislikes?: number;
-  downloads?: number;
-  downloadLink?: string;
-  brand?: string;
-  location?: string;
-  category?: string;
-  trans?: string;
-  version?: string;
-  trackType?: string;
-  description?: string;
+  credit: string;
+  image: string;
+  likes: number;
+  dislikes: number;
+  downloads: number;
+  downloadLink: string;
+  brand: string;
+  location: string;
+  category: string;
+  trans: string;
+  version: string;
+  trackType: string;
+  description: string;
 }
 
 export interface Car {

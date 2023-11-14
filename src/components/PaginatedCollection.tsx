@@ -9,7 +9,6 @@ import { useRouter } from 'next/router';
 import {
   setCurrentPage,
   setIsSingleCol,
-  setSortedData,
   setSortValue,
   setPageSize,
 } from '../store/slices/paginationSlice';
@@ -17,10 +16,11 @@ import type { RootState } from '../store/store';
 import type { SelectChangeEvent } from '@mui/material/Select';
 import { DataCategory, SortValue } from '../types/global';
 import axios from 'axios';
+import { Track, Car } from '../types/global';
 
 interface PaginatedCollectionProps {
   dataCategory: DataCategory;
-  data: any[];
+  data: Track[] | Car[] | string[];
   hasResults: boolean;
 }
 
@@ -31,11 +31,10 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
   const [loading, setLoading] = useState(true);
   const [displayData, setDisplayData] = useState<any[]>([]); // State for data to display
   const [likesDislikesData, setLikesDislikesData] = useState<any[]>([]); // New state for likes/dislikes
-
-  const router = useRouter();
-  // Redux dispatch and state selectors
   const dispatch = useDispatch();
+  const router = useRouter();
 
+  // Redux state selectors
   const isSingleCol = useSelector(
     (state: RootState) => state.pagination.isSingleCol
   );
@@ -46,9 +45,10 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
   const sortValue = useSelector(
     (state: RootState) => state.pagination.sortValue
   );
+
   // Sort data based on sortValue
   useEffect(() => {
-    const sorted = sortData(data, sortValue);
+    const sorted = sortData(data as Track[] | Car[], sortValue);
     const start = (currentPage - 1 || 0) * pageSize;
     const end = currentPage * pageSize;
     const sliced = sorted.slice(start, end);
@@ -84,8 +84,9 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
     }
     setLoading(false);
   };
+
   // Sort function
-  const sortData = (dataToSort: any[], sortValue: SortValue) => {
+  const sortData = (dataToSort: Track[] | Car[], sortValue: SortValue) => {
     const dataCopy = [...dataToSort];
 
     switch (sortValue) {
@@ -160,7 +161,7 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
   return hasResults ? (
     <>
       <ContentPagination
-        data={data}
+        data={data as Track[] | Car[]}
         isSingleCol={isSingleCol}
         pageSize={pageSize}
         currentPage={currentPage}

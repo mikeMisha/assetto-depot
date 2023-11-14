@@ -16,22 +16,10 @@ import { supabase } from '../../../src/lib/initSupabase';
 import type { Filter } from '../../../src/types/global';
 import type { CarSearchState } from '../../../src/store/slices/carSearchSlice';
 import { RootState } from '../../../src/store/store';
-
-interface car {
-  id: number;
-  brand: string;
-  name: string;
-  image: string;
-  downloadLink: string;
-  dislikes: number;
-  downloads: number;
-  trans: 'auto' | 'manual';
-  credit: string;
-  category: string;
-}
+import { Car } from '../../../src/types/global';
 
 interface CarPageProps {
-  cars: car[];
+  cars: Car[];
   filters: Filter[];
 }
 const CarPage = (props: CarPageProps) => {
@@ -90,7 +78,7 @@ const CarPage = (props: CarPageProps) => {
       <PaginatedCollection
         dataCategory="cars"
         hasResults={!!resultsData?.length}
-        data={resultsData}
+        data={resultsData as Car[]}
       />
     </>
   );
