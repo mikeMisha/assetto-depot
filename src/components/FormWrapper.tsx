@@ -29,7 +29,6 @@ const FormWrapper = <
   title,
 }: FormWrapperProps<FormValuesType>) => {
   const [formValues, setFormValues] = useState<FormValuesType>(defaultValues);
-
   const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -37,6 +36,7 @@ const FormWrapper = <
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = event.target;
+
     setFormValues((prevValues) => ({
       ...prevValues,
       [name]: value,
@@ -45,6 +45,7 @@ const FormWrapper = <
 
   const handleSelectChange = (event: SelectChangeEvent) => {
     const { name, value } = event.target;
+
     setFormValues((prevValues) => ({
       ...prevValues,
       [name]: value,

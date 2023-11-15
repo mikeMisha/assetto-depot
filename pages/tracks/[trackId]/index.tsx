@@ -35,6 +35,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     };
   }
 };
+
 export const getStaticProps: GetStaticProps<TrackPageProps, Params> = async (
   context: GetStaticPropsContext<Params>
 ) => {

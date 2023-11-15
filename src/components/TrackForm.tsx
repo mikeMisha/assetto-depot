@@ -147,14 +147,14 @@ function TrackForm(props: TrackFormProps) {
           }}
         >
           <FormControl required sx={{ minWidth: '130px' }}>
-            <InputLabel id="type-label">Type</InputLabel>
+            <InputLabel id="type-label">Track type</InputLabel>
             <Select
               labelId="type-label"
               id="type-select"
-              name="type"
+              name="trackType"
               value={formValues.trackType}
               onChange={handleSelectChange}
-              label="type"
+              label="Track type"
             >
               {trackTypes.map((type) => (
                 <MenuItem key={type} value={type}>

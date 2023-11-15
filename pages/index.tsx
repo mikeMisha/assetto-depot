@@ -14,7 +14,7 @@ export default function Home() {
           display: 'flex',
           justifyContent: 'center',
           minHeight: '400px',
-          height: '100%',
+          height: 'calc(100vh - 90px)',
           background: `linear-gradient(90deg, rgba(78,78,78,0.7) 0%, rgba(78,78,78,1) 100%), url(/images/ac-bg.jpeg) no-repeat center / cover `,
         }}
       >
