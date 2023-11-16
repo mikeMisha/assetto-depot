@@ -29,7 +29,6 @@ const TracksPage = (props: TracksPageProps) => {
     (state: RootState) => state.trackSearch.filters
   );
   const filteredTracks = useFilters(activeFilters, tracks);
-
   const [resultsData, setResultsData] = useState(filteredTracks);
 
   useEffect(() => {

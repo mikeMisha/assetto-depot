@@ -4,7 +4,6 @@ import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { Track } from '../../../src/types/global';
 
-// Define TypeScript interface for TrackPage props
 interface TrackPageProps {
   track: Track;
 }

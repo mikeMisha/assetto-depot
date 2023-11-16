@@ -8,7 +8,6 @@ interface CarPageProps {
   car: Car;
 }
 
-// Define the CarPage component with typed props
 function CarPage({ car }: CarPageProps) {
   return <DetailsPage data={car} dataCategory="cars" />;
 }

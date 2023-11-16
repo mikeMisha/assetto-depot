@@ -8,8 +8,6 @@ import { wrapper } from '../src/store/store';
 import type { AppProps } from 'next/app';
 import '../src/styles/globals.css';
 
-// Extend AppProps with additional properties if needed
-
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <>

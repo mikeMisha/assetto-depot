@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { SortValue } from '../types/global';
+
 const PAGE_SIZES = [15, 25, 50, 100];
 
 interface ContentPaginationProps {

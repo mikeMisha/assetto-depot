@@ -33,6 +33,7 @@ type LikeDislikeResponseItem = {
   likes: number;
   dislikes: number;
 };
+
 const PaginatedCollection = (props: PaginatedCollectionProps) => {
   const { dataCategory, data, hasResults } = props;
   const [loading, setLoading] = useState(true);
@@ -47,10 +48,13 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
   const isSingleCol = useSelector(
     (state: RootState) => state.pagination.isSingleCol
   );
+
   const pageSize = useSelector((state: RootState) => state.pagination.pageSize);
+
   const currentPage = useSelector(
     (state: RootState) => state.pagination.currentPage
   );
+
   const sortValue = useSelector(
     (state: RootState) => state.pagination.sortValue
   );
@@ -78,6 +82,7 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
   // Function to fetch likes/dislikes
   const fetchLikesDislikes = async () => {
     setLoading(true);
+
     try {
       const itemIds = displayData.map((item) => item.id); // Collect all IDs
       const response = await axios.get<LikeDislikeResponseItem[]>(
@@ -100,6 +105,7 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
     } catch (error) {
       console.error('Error fetching likes/dislikes:', error);
     }
+
     setLoading(false);
   };
 

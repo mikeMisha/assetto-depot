@@ -8,26 +8,24 @@ import NextLink from 'next/link';
 import Link from '@mui/material/Link';
 import { SelectChangeEvent } from '@mui/material/Select';
 
+interface FormComponentProps<FormValuesType> {
+  formValues: FormValuesType;
+  handleTextFieldChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
+  handleSelectChange: (event: SelectChangeEvent) => void;
+  handleUploadChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
 interface FormWrapperProps<FormValuesType> {
   defaultValues: FormValuesType;
-  FormComponent: React.ComponentType<{
-    formValues: FormValuesType;
-    handleTextFieldChange: (
-      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => void;
-    handleSelectChange: (event: SelectChangeEvent) => void;
-    handleUploadChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  }>;
+  FormComponent: React.ComponentType<FormComponentProps<FormValuesType>>;
   title: string;
 }
 
-const FormWrapper = <
-  FormValuesType extends { [key: string]: string | Blob | null | number }
->({
-  defaultValues,
-  FormComponent,
-  title,
-}: FormWrapperProps<FormValuesType>) => {
+function FormWrapper<
+  FormValuesType extends Record<string, string | Blob | null | number>
+>({ defaultValues, FormComponent, title }: FormWrapperProps<FormValuesType>) {
   const [formValues, setFormValues] = useState<FormValuesType>(defaultValues);
   const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -181,6 +179,6 @@ const FormWrapper = <
       </Box>
     </>
   );
-};
+}
 
 export default FormWrapper;
