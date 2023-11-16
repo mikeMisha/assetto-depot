@@ -28,6 +28,11 @@ type SortedLikedData =
   | (Track & { likes?: number; dislikes?: number })
   | (Car & { likes?: number; dislikes?: number });
 
+type LikeDislikeResponseItem = {
+  id: number;
+  likes: number;
+  dislikes: number;
+};
 const PaginatedCollection = (props: PaginatedCollectionProps) => {
   const { dataCategory, data, hasResults } = props;
   const [loading, setLoading] = useState(true);
@@ -74,15 +79,24 @@ const PaginatedCollection = (props: PaginatedCollectionProps) => {
   const fetchLikesDislikes = async () => {
     setLoading(true);
     try {
-      const updatedData = await Promise.all(
-        displayData.map(async (item) => {
-          const response = await axios.get('/api/likes-dislikes', {
-            params: { id: item.id, type: dataCategory },
-          });
-          return { ...item, ...response.data };
-        })
+      const itemIds = displayData.map((item) => item.id); // Collect all IDs
+      const response = await axios.get<LikeDislikeResponseItem[]>(
+        '/api/bulk-likes-dislikes',
+        {
+          params: { ids: itemIds.join(','), type: dataCategory },
+        }
       );
-      setLikesDislikesData(updatedData); // Update likes/dislikes state
+
+      const likesDislikesById = new Map(
+        response.data.map((ld: LikeDislikeResponseItem) => [ld.id, ld])
+      );
+
+      const updatedData = displayData.map((item) => {
+        const likesDislikes = likesDislikesById.get(Number(item.id)) || {};
+        return { ...item, ...likesDislikes };
+      });
+
+      setLikesDislikesData(updatedData);
     } catch (error) {
       console.error('Error fetching likes/dislikes:', error);
     }
