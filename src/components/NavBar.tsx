@@ -38,13 +38,15 @@ export default function NavBar() {
           <Box
             sx={{
               flexGrow: 1,
+
               my: 1,
-              display: { sm: 'block' },
+              display: 'flex',
+              alignItems: 'center',
             }}
           >
             <Image
               src="/images/logo.png"
-              width={400}
+              width={280}
               height={50}
               objectFit="contain"
             />
