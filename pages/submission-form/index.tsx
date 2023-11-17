@@ -10,7 +10,7 @@ function SubmissionPage() {
       <Box
         sx={{
           display: 'flex',
-          height: 'calc(100vh - 72px)',
+          height: 'calc(100vh - 65px)',
           justifyContent: 'center',
           alignItems: 'center',
           flexDirection: 'column',
